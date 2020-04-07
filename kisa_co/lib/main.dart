@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kisaco/screens/authShort_screen.dart';
 import 'package:kisaco/screens/welcome_screen.dart';
 import 'package:kisaco/screens/constants.dart';
 import 'package:kisaco/screens/dashboard_screen.dart';
@@ -35,6 +36,7 @@ class KisaCo extends StatelessWidget {
         DashboardScreen.id: (context) => DashboardScreen(),
         DirectShortScreen.id: (context) => DirectShortScreen(),
         AnalyticsScreen.id: (context) => AnalyticsScreen(),
+        AuthShortScreen.id: (context) => AuthShortScreen(),
       },
     );
   }

@@ -16,33 +16,6 @@ class DirectShortScreen extends StatefulWidget {
 }
 
 class _DirectShortScreenState extends State<DirectShortScreen> {
-  Future<void> errorAlert(BuildContext context) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Warning'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('Incorrect Username or Password'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('Okay'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +23,7 @@ class _DirectShortScreenState extends State<DirectShortScreen> {
         title: Text('KISA.co'),
       ),
       body: Container(
-        color: Colors.black54,
+        //color: Colors.black54,
         child: Padding(
           padding: const EdgeInsets.only(
             top: 30.0,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kisaco/components/rounded_button.dart';
+import 'package:kisaco/screens/authShort_screen.dart';
 import 'package:kisaco/screens/constants.dart';
 import 'package:kisaco/screens/login_screen.dart';
 import 'package:kisaco/screens/signup_screen.dart';
@@ -27,7 +28,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      //backgroundColor: Colors.black,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
@@ -79,7 +80,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               title: 'Shorten Link',
               colour: kBrownColor,
               onPressed: () {
-                Navigator.pushNamed(context, DirectShortScreen.id);
+                Navigator.pushNamed(context, AuthShortScreen.id);
               },
             ),
           ],
