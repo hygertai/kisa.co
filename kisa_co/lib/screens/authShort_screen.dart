@@ -55,156 +55,151 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
       appBar: AppBar(
         title: Text('KISA.co'),
       ),
-      body: ListView(
-        shrinkWrap: true,
-        children: <Widget>[
-          Container(
-            //color: Colors.black54,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 30.0,
-                left: 10.0,
-                right: 10.0,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
+      //TODO use ListView in case there is need for sth scrollable
+      body: Container(
+        //color: Colors.black54,
+        child: Padding(
+          padding: const EdgeInsets.only(
+            top: 30.0,
+            left: 10.0,
+            right: 10.0,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Flexible(
+                  child: Container(
+                    child: Image(image: AssetImage('images/authShort.png')),
+                  ),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Text(
+                  'Authenticated Shortening',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 25.0, color: kLightPurpleColor),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  textAlign: TextAlign.center,
+                  onChanged: (value) {},
+                  decoration: kTextFieldDecorationLog.copyWith(
+                      hintText: 'Enter link here'),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  textAlign: TextAlign.center,
+                  onChanged: (value) {},
+                  decoration: kTextFieldDecorationLog.copyWith(
+                      hintText: 'Enter View Count Limitation'),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  textAlign: TextAlign.center,
+                  onChanged: (value) {},
+                  decoration: kTextFieldDecorationLog.copyWith(
+                      hintText: 'Enter custom name (optional)'),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Text(
+                  'Choose link privacy',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20.0, color: kLightPurpleColor),
+                ),
+                Row(
                   mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Flexible(
-                      child: Container(
-                        child: Image(image: AssetImage('images/authShort.png')),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
                     Text(
-                      'Authenticated Shortening',
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontSize: 25.0, color: kLightPurpleColor),
+                      'Public',
+                      style: new TextStyle(fontSize: 16.0),
                     ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    TextField(
-                      keyboardType: TextInputType.emailAddress,
-                      textAlign: TextAlign.center,
-                      onChanged: (value) {},
-                      decoration: kTextFieldDecorationLog.copyWith(
-                          hintText: 'Enter link here'),
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    TextField(
-                      keyboardType: TextInputType.emailAddress,
-                      textAlign: TextAlign.center,
-                      onChanged: (value) {},
-                      decoration: kTextFieldDecorationLog.copyWith(
-                          hintText: 'Enter View Count Limitation'),
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    TextField(
-                      keyboardType: TextInputType.emailAddress,
-                      textAlign: TextAlign.center,
-                      onChanged: (value) {},
-                      decoration: kTextFieldDecorationLog.copyWith(
-                          hintText: 'Enter custom name (optional)'),
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    Text(
-                      'Choose link privacy',
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontSize: 20.0, color: kLightPurpleColor),
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'Public',
-                          style: new TextStyle(fontSize: 16.0),
-                        ),
-                        Radio(
-                          value: PrivacyChoice.public,
-                          activeColor: Colors.amber,
-                          groupValue: _choice,
-                          onChanged: (PrivacyChoice value) {
-                            setState(() {
-                              _choice = value;
-                            });
-                          },
-                        ),
-                        Text(
-                          'Private',
-                          style: TextStyle(fontSize: 16.0),
-                        ),
-                        Radio(
-                          value: PrivacyChoice.private,
-                          activeColor: Colors.amber,
-                          groupValue: _choice,
-                          onChanged: (PrivacyChoice value) {
-                            setState(() {
-                              _choice = value;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    RaisedButton(
-                      color: Colors.amber,
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(18.0),
-                          side: BorderSide(color: kDarkestPurpleColor)),
-                      onPressed: () => _selectDate(context),
-                      child: Text(
-                        'Select Expiration date',
-                        style: TextStyle(color: kDarkestPurpleColor),
-                      ),
-                    ),
-                    RoundedButton(
-                      title: 'Shorten Link',
-                      colour: kLightPurpleColor,
-                      onPressed: () async {
+                    Radio(
+                      value: PrivacyChoice.public,
+                      activeColor: Colors.amber,
+                      groupValue: _choice,
+                      onChanged: (PrivacyChoice value) {
                         setState(() {
-                          //set state here
-                          //errorAlert(context);
-
-                          final popup = BeautifulPopup(
-                            context: context,
-                            template: TemplateGreenRocket,
-                          );
-
-                          popup.show(
-                            title: 'Your Short Link',
-                            content: 'Shortened Link Here.',
-                            actions: [
-                              popup.button(
-                                label: 'Copy Link',
-                                onPressed: Navigator.of(context).pop,
-                              ),
-                            ],
-                          );
+                          _choice = value;
+                        });
+                      },
+                    ),
+                    Text(
+                      'Private',
+                      style: TextStyle(fontSize: 16.0),
+                    ),
+                    Radio(
+                      value: PrivacyChoice.private,
+                      activeColor: Colors.amber,
+                      groupValue: _choice,
+                      onChanged: (PrivacyChoice value) {
+                        setState(() {
+                          _choice = value;
                         });
                       },
                     ),
                   ],
                 ),
-              ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                RaisedButton(
+                  color: Colors.amber,
+                  shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(18.0),
+                      side: BorderSide(color: kDarkestPurpleColor)),
+                  onPressed: () => _selectDate(context),
+                  child: Text(
+                    'Select Expiration date',
+                    style: TextStyle(color: kDarkestPurpleColor),
+                  ),
+                ),
+                RoundedButton(
+                  title: 'Shorten Link',
+                  colour: kLightPurpleColor,
+                  onPressed: () async {
+                    setState(() {
+                      //set state here
+                      //errorAlert(context);
+
+                      final popup = BeautifulPopup(
+                        context: context,
+                        template: TemplateGreenRocket,
+                      );
+
+                      popup.show(
+                        title: 'Your Short Link',
+                        content: 'Shortened Link Here.',
+                        actions: [
+                          popup.button(
+                            label: 'Copy Link',
+                            onPressed: Navigator.of(context).pop,
+                          ),
+                        ],
+                      );
+                    });
+                  },
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 0,
