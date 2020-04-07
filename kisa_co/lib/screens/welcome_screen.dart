@@ -77,7 +77,14 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               ],
             ),
             RoundedButton(
-              title: 'Shorten Link',
+              title: 'Shorten Link - Direct',
+              colour: kBrownColor,
+              onPressed: () {
+                Navigator.pushNamed(context, DirectShortScreen.id);
+              },
+            ),
+            RoundedButton(
+              title: 'Shorten Link - Auth',
               colour: kBrownColor,
               onPressed: () {
                 Navigator.pushNamed(context, AuthShortScreen.id);
