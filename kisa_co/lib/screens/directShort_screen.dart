@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kisaco/components/rounded_button.dart';
 import 'constants.dart';
 
 class DirectShortScreen extends StatefulWidget {
@@ -25,41 +26,48 @@ class _DirectShortScreenState extends State<DirectShortScreen> {
             left: 10.0,
             right: 10.0,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Text(
-                'Shorten Link',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 25.0, color: kLightPurpleColor),
-              ),
-              SizedBox(),
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                textAlign: TextAlign.center,
-                onChanged: (value) {},
-                decoration: kTextFieldDecorationLog.copyWith(
-                    hintText: 'Enter your email'),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              FlatButton(
-                child: Text(
-                  'Add the Item',
-                  style: TextStyle(
-                    color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Flexible(
+                  child: Container(
+                    child: Image(image: AssetImage('images/shorten.png')),
                   ),
                 ),
-                color: kLightPurpleColor,
-                focusColor: kDarkestPurpleColor,
-                onPressed: () {
-//                Provider.of<UserModel>(context, listen: false)
-//                    .addItem(newItemString);
-                  Navigator.pop(context);
-                },
-              ),
-            ],
+                SizedBox(
+                  height: 20.0,
+                ),
+                Text(
+                  'Direct Shortening',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 25.0, color: kLightPurpleColor),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  textAlign: TextAlign.center,
+                  onChanged: (value) {},
+                  decoration: kTextFieldDecorationLog.copyWith(
+                      hintText: 'Enter link here'),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                RoundedButton(
+                  title: 'Shorten Link',
+                  colour: kLightPurpleColor,
+                  onPressed: () async {
+                    setState(() {
+                      //set state here
+                    });
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
