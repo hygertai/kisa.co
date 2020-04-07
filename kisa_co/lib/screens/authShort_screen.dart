@@ -19,6 +19,36 @@ class AuthShortScreen extends StatefulWidget {
 
 class _AuthShortScreenState extends State<AuthShortScreen> {
   PrivacyChoice _choice = PrivacyChoice.private;
+  DateTime selectedDate = DateTime.now();
+
+  Future<Null> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+      });
+  }
+
+  Future<DateTime> _getDate() {
+    return showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2015, 8),
+      lastDate: DateTime(2101),
+      builder: (BuildContext context, Widget child) {
+        return Theme(
+          data: ThemeData.light(),
+          child: child,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,6 +99,13 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                     SizedBox(
                       height: 10.0,
                     ),
+                    TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      textAlign: TextAlign.center,
+                      onChanged: (value) {},
+                      decoration: kTextFieldDecorationLog.copyWith(
+                          hintText: 'Enter View Count Limitation'),
+                    ),
                     SizedBox(
                       height: 10.0,
                     ),
@@ -77,7 +114,7 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                       textAlign: TextAlign.center,
                       onChanged: (value) {},
                       decoration: kTextFieldDecorationLog.copyWith(
-                          hintText: 'Define access limit for short link'),
+                          hintText: 'Enter custom name (optional)'),
                     ),
                     SizedBox(
                       height: 10.0,
@@ -108,7 +145,7 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                         ),
                         Text(
                           'Private',
-                          style: new TextStyle(fontSize: 16.0),
+                          style: TextStyle(fontSize: 16.0),
                         ),
                         Radio(
                           value: PrivacyChoice.private,
@@ -124,6 +161,17 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                     ),
                     SizedBox(
                       height: 10.0,
+                    ),
+                    RaisedButton(
+                      color: Colors.amber,
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(18.0),
+                          side: BorderSide(color: kDarkestPurpleColor)),
+                      onPressed: () => _selectDate(context),
+                      child: Text(
+                        'Select Expiration date',
+                        style: TextStyle(color: kDarkestPurpleColor),
+                      ),
                     ),
                     RoundedButton(
                       title: 'Shorten Link',
