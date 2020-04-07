@@ -1,72 +1,76 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kisaco/components/custom_bottom_nav.dart';
+import 'package:kisaco/screens/welcome_screen.dart';
 
+import 'analytics_screen.dart';
 import 'constants.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
   static const String id = 'dashboard_screen';
 
-  Future<String> createDialogBox(BuildContext context) async {
-    TextEditingController customController = TextEditingController();
-    // create a pop up screen upon clicking add button
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text("Please Enter the List Name:"),
-            content: TextFormField(
-              inputFormatters: [
-                LengthLimitingTextInputFormatter(40),
-              ],
-              controller: customController,
-            ),
-            actions: <Widget>[
-              MaterialButton(
-                color: kBrownColor,
-                onPressed: () {
-                  // close the dialog box when submit is clicked.
-                  Navigator.of(context).pop(customController.text
-                      .toString()); //to return text back to homescreen
-                },
-                elevation: 0.5,
-                child: Text("Submit"),
-              )
-            ],
-          );
-        });
-  }
+  @override
+  _DashboardScreenState createState() => _DashboardScreenState();
+}
 
+class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: CustomBottomNav(
-          selectedIndex: 0,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text(
+          'Dashboard',
         ),
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Text(
-            'Home',
+      ),
+      body: Container(),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 0,
+        fixedColor: kLightPurpleColor,
+        items: [
+          BottomNavigationBarItem(
+            title: Text("Home"),
+            icon: Icon(Icons.home),
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: kBrownColor,
-          child: Icon(
-            Icons.add,
-            color: kOffWhiteColor,
+          BottomNavigationBarItem(
+            title: Text("Analytics"),
+            icon: Icon(Icons.show_chart),
           ),
-          elevation: 5.0,
-          onPressed: () async {
-//            createDialogBox(context).then((String listName) {
-//              if (listName != null) {
-//                //Create reusable list card
-//                user.addList(listName);
-//                //Navigator.pop(context);
-//              }
-//            });
-          },
-        ),
-        body: Container());
+          BottomNavigationBarItem(
+            title: Text("Dashboard"),
+            icon: Icon(Icons.dashboard),
+          ),
+        ],
+        onTap: (int index) {
+          setState(() {
+            switch (index) {
+              case 0:
+                {
+                  // Navigate to Dashboard
+                  Navigator.pushNamed(context, WelcomeScreen.id);
+                }
+                break;
+              case 1:
+                {
+                  // Navigate to Archived List
+                  Navigator.pushNamed(context, AnalyticsScreen.id);
+                }
+                break;
+              case 2:
+                {
+                  // Map
+                  Navigator.pushNamed(context, DashboardScreen.id);
+                }
+                break;
+              default:
+                {
+                  Navigator.pushNamed(context, WelcomeScreen.id);
+                }
+                break;
+            }
+          });
+        },
+      ),
+    );
   }
 }

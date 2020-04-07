@@ -2,7 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kisaco/components/rounded_button.dart';
+import 'package:kisaco/screens/analytics_screen.dart';
+import 'package:kisaco/screens/dashboard_screen.dart';
+import 'package:kisaco/screens/welcome_screen.dart';
 import 'constants.dart';
+import 'package:flutter_beautiful_popup/main.dart';
 
 class DirectShortScreen extends StatefulWidget {
   static const String id = 'directshort_screen';
@@ -12,6 +16,33 @@ class DirectShortScreen extends StatefulWidget {
 }
 
 class _DirectShortScreenState extends State<DirectShortScreen> {
+  Future<void> errorAlert(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Warning'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Incorrect Username or Password'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Okay'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,6 +94,23 @@ class _DirectShortScreenState extends State<DirectShortScreen> {
                   onPressed: () async {
                     setState(() {
                       //set state here
+                      //errorAlert(context);
+
+                      final popup = BeautifulPopup(
+                        context: context,
+                        template: TemplateGreenRocket,
+                      );
+
+                      popup.show(
+                        title: 'Your Short Link',
+                        content: 'Shortened Link Here.',
+                        actions: [
+                          popup.button(
+                            label: 'Copy Link',
+                            onPressed: Navigator.of(context).pop,
+                          ),
+                        ],
+                      );
                     });
                   },
                 ),
@@ -80,17 +128,41 @@ class _DirectShortScreenState extends State<DirectShortScreen> {
             icon: Icon(Icons.home),
           ),
           BottomNavigationBarItem(
-            title: Text("Search"),
-            icon: Icon(Icons.search),
+            title: Text("Analytics"),
+            icon: Icon(Icons.show_chart),
           ),
           BottomNavigationBarItem(
-            title: Text("Add"),
-            icon: Icon(Icons.add_box),
+            title: Text("Dashboard"),
+            icon: Icon(Icons.dashboard),
           ),
         ],
         onTap: (int index) {
           setState(() {
-            //_currentIndex = index;
+            switch (index) {
+              case 0:
+                {
+                  // Navigate to Dashboard
+                  Navigator.pushNamed(context, WelcomeScreen.id);
+                }
+                break;
+              case 1:
+                {
+                  // Navigate to Archived List
+                  Navigator.pushNamed(context, AnalyticsScreen.id);
+                }
+                break;
+              case 2:
+                {
+                  // Map
+                  Navigator.pushNamed(context, DashboardScreen.id);
+                }
+                break;
+              default:
+                {
+                  Navigator.pushNamed(context, WelcomeScreen.id);
+                }
+                break;
+            }
           });
         },
       ),

@@ -5,20 +5,12 @@ import 'package:kisaco/screens/dashboard_screen.dart';
 import 'package:kisaco/screens/login_screen.dart';
 import 'package:kisaco/screens/signup_screen.dart';
 import 'package:kisaco/screens/directShort_screen.dart';
+import 'package:kisaco/screens/analytics_screen.dart';
 
 //import 'package:http/http.dart' as http;
 
 void main() {
-  runApp(KisaCo()
-//    MultiProvider(
-//      providers: [
-//        ChangeNotifierProvider<UserModel>(create: (context) => UserModel()),
-////        ChangeNotifierProvider<ListModel>(create: (context) => ListModel()),
-//        //Provider(create: (context) => Dashboard()),
-//      ],
-//      child: NotiveApp(),
-//    ),
-      );
+  runApp(KisaCo());
 }
 
 class KisaCo extends StatelessWidget {
@@ -42,6 +34,7 @@ class KisaCo extends StatelessWidget {
         SignupScreen.id: (context) => SignupScreen(),
         DashboardScreen.id: (context) => DashboardScreen(),
         DirectShortScreen.id: (context) => DirectShortScreen(),
+        AnalyticsScreen.id: (context) => AnalyticsScreen(),
       },
     );
   }
