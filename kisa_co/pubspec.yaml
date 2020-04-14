@@ -36,6 +36,7 @@ dependencies:
   sliding_up_panel: ^1.0.0
   auto_size_text: ^2.1.0
   flutter_beautiful_popup: ^1.4.0
+  syncfusion_flutter_charts: ^18.1.44
 
 dev_dependencies:
   flutter_test:
