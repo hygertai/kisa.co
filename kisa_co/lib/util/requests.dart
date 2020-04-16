@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
-
 import 'package:http/http.dart' as http;
+import 'package:kisaco/models/url_model.dart';
 
-String apiUrl = " ";
+String apiUrl = "http://139.59.155.177:8080/api/users/all";
 
 Map<String, String> headers = {
   'Content-type': 'application/json',
@@ -95,6 +95,43 @@ Future<List<dynamic>> signUpUser(Map<String, dynamic> data) async {
   return [response[0], result['message']]; //Return error message from API.
 }
 
+Future<List<UrlData>> fillUserLists() async {
+  // Get user lists for dashboard view
+  var listResponse = await getUserUrls();
+  if (listResponse[0] != 200) {
+    return [];
+  }
+
+  var lists = listResponse[2];
+
+  // Get all items of a user as a hashmap, key: list_id
+  var itemResponse = await getUserUrls();
+  if (itemResponse[0] != 200) {
+    return [];
+  }
+
+  var items = itemResponse[2];
+
+  for (var i = 0; i < lists.length; i++) {
+    var responseItems =
+        items[(lists[i].id).toString()]; // Get respective list items
+    List<UrlData> listItems = [];
+
+    // convert dynamic list to Notive ItemModel list
+    if (responseItems != null) {
+      for (var i = 0; i < responseItems.length; i++) {
+        UrlData itemToAdd = UrlData.fromJson(responseItems[i]);
+//        String query = itemToAdd.name;
+//        itemToAdd.setItemData(query);
+        listItems.add(itemToAdd);
+      }
+    }
+    // set items of the list
+    lists[i].setItems(listItems);
+  }
+  return lists;
+}
+
 void logoutUser() async {
   await sendRequest('auth/logout', {}, 'GET');
 }
@@ -146,10 +183,8 @@ Future<List<dynamic>> deleteUrl(int urlId) async {
   return [response[0], response[1]];
 }
 
-Future<List<dynamic>> toggleMuteList(int urlId) async {
-  Map<String, dynamic> data = {};
-  List<dynamic> response;
-  response = await sendRequest('urls/$urlId/mute', data, 'PUT');
+Future<List<dynamic>> createNewUrl(Map<String, dynamic> data) async {
+  List<dynamic> response = await sendRequest('item', data, 'POST');
   return [response[0], response[1]];
 }
 

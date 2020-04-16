@@ -86,11 +86,11 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                 series: <ChartSeries<UrlData, String>>[
                   LineSeries<UrlData, String>(
                       dataSource: <UrlData>[
-                        UrlData('Jan', 35),
-                        UrlData('Feb', 28),
-                        UrlData('Mar', 34),
-                        UrlData('Apr', 32),
-                        UrlData('May', 40)
+                        UrlData(month: 'Jan', visitor_count: 35),
+                        UrlData(month: 'Feb', visitor_count: 28),
+                        UrlData(month: 'Mar', visitor_count: 34),
+                        UrlData(month: 'Apr', visitor_count: 32),
+                        UrlData(month: 'May', visitor_count: 40)
                       ],
                       xValueMapper: (UrlData sales, _) => sales.month,
                       yValueMapper: (UrlData sales, _) => sales.visitor_count,

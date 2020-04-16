@@ -20,7 +20,21 @@ class _DirectShortScreenState extends State<DirectShortScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('KISA.co'),
+        //backgroundColor: Colors.black,
+        title: IconButton(
+          icon: Image.asset('images/logo.png'),
+          onPressed: () {
+            Navigator.pushNamed(context, WelcomeScreen.id);
+          },
+        ),
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {},
+                child: Icon(Icons.more_vert),
+              )),
+        ],
       ),
       body: Container(
         //color: Colors.black54,

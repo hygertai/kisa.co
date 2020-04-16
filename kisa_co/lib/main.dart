@@ -7,18 +7,25 @@ import 'package:kisaco/screens/login_screen.dart';
 import 'package:kisaco/screens/signup_screen.dart';
 import 'package:kisaco/screens/directShort_screen.dart';
 import 'package:kisaco/screens/analytics_screen.dart';
+import 'package:provider/provider.dart';
+import 'models/user_model.dart';
 
 //import 'package:http/http.dart' as http;
 
 void main() {
-  runApp(KisaCo());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<UserModel>(create: (context) => UserModel()),
+      ],
+      child: KisaCo(),
+    ),
+  );
 }
 
 class KisaCo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-//    var log = Provider.of<UserModel>(context, listen: false).isLoggedIn;
-
     return MaterialApp(
       theme: ThemeData(
         brightness: Brightness.light,

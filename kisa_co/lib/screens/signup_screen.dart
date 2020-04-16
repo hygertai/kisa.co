@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:kisaco/models/user_model.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:kisaco/components/rounded_button.dart';
-//import 'package:kisaco/models/user_model.dart';
+import 'package:kisaco/models/user_model.dart';
 import 'package:kisaco/screens/constants.dart';
+import 'package:provider/provider.dart';
 
 import 'dashboard_screen.dart';
 
@@ -18,7 +20,6 @@ class _SignupScreenState extends State<SignupScreen> {
   String email;
   String password;
   String username;
-  String surname;
 
   Future<void> errorAlert(BuildContext context) async {
     return showDialog<void>(
@@ -138,12 +139,12 @@ class _SignupScreenState extends State<SignupScreen> {
                         decoration: kTextFieldDecorationSign.copyWith(
                           filled: true,
                           fillColor: kLightPurpleColor,
-                          hintText: 'Confirm password',
+                          hintText: 'Enter your name',
                           hintStyle: TextStyle(
                             color: Color(0xff462f3f),
                           ),
                           prefixIcon: Icon(
-                            Icons.lock,
+                            Icons.person,
                             color: Color(0xff462f3f),
                           ),
                         ),
@@ -162,12 +163,10 @@ class _SignupScreenState extends State<SignupScreen> {
                         var data = Map<String, dynamic>();
                         data["email"] = email;
                         data["password"] = password;
-                        data["name"] = username;
-                        data["surname"] = surname;
 
                         var result = ' ';
-//                        await Provider.of<UserModel>(context, listen: false)
-//                            .signUp(data);
+                        await Provider.of<UserModel>(context, listen: false)
+                            .signUp(data);
 
                         if (result != null) {
                           Navigator.pushNamed(context, DashboardScreen.id);
