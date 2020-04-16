@@ -4,7 +4,7 @@ import 'dart:core';
 import 'package:http/http.dart' as http;
 import 'package:kisaco/models/url_model.dart';
 
-String apiUrl = "http://139.59.155.177:8080/api/users/all";
+String apiUrl = "http://139.59.155.177:8080/api/users";
 
 Map<String, String> headers = {
   'Content-type': 'application/json',
@@ -13,18 +13,19 @@ Map<String, String> headers = {
       'Bearer P342A8HtvavVuSDNKV2fMd9TZctxVLs8Cw2I2nfi6HlMIUFPc51MV66zYdwOPUno'
 };
 
-Future<List<dynamic>> sendRequest(String url, String method) async {
+Future<List<dynamic>> sendRequest(
+    String url, Map<String, dynamic> reqBody, String method) async {
   if (method == "POST") {
-    final response = await http.post(
-      apiUrl + url,
-    );
+    final response = await http.post(apiUrl + url,
+        headers: headers, body: json.encode(reqBody));
     updateCookie(response);
     print(response.body);
-    //final responseJson = json.decode(response.body);
-    return [response.statusCode];
+    final responseJson = json.decode(response.body);
+    return [response.statusCode, responseJson];
   } else if (method == "GET") {
     final response = await http.get(
       apiUrl + url,
+      headers: headers,
     );
     updateCookie(response);
     //final responseJson = json.decode(response.body);
@@ -50,7 +51,7 @@ Future<List<dynamic>> sendRequest(String url, String method) async {
 
 Future<List<dynamic>> loginUser(Map<String, dynamic> data) async {
   List<dynamic> response = await sendRequest('/login', 'POST');
-  Map<String, dynamic> result = response[1]; // Response from API.
+  Map<String, dynamic> result = response[0]; // Response from API.
   if (response[0] != 200) {
     // Status code from API.
     return [response[0], result['message']]; // Return error message from API.
@@ -60,7 +61,7 @@ Future<List<dynamic>> loginUser(Map<String, dynamic> data) async {
     String email = result['data']['user']['email'];
     String name = result['data']['user']['name'];
     Map<String, dynamic> userDetails = {
-      'user_id': userID,
+      'id': userID,
       'email': email,
       'name': name
     };
@@ -70,8 +71,8 @@ Future<List<dynamic>> loginUser(Map<String, dynamic> data) async {
 
 Future<List<dynamic>> signUpUser(Map<String, dynamic> data) async {
   List<dynamic> response = await sendRequest('/signup', 'POST');
-  int result = response[0]; //Response from API.
-  //return [response[0], result['message']]; //Return error message from API.
+  Map<String, dynamic> result = response[0]; //Response from API.
+  return [response[0], result['message']]; //Return error message from API.
 }
 
 Future<List<UrlData>> fillUserLists() async {

@@ -8,7 +8,6 @@ class UserModel extends ChangeNotifier {
   String email;
   String name;
 
-  int userMapIndex = 0;
   List<UrlData> _generatedUrl = [];
   bool isLoggedIn = false;
 
@@ -33,7 +32,7 @@ class UserModel extends ChangeNotifier {
     var status = response[0];
     if (status == 200) {
       var user = response[2];
-      this.id = user["user_id"];
+      //this.id = user["user_id"];
       this.email = user["email"];
       this.name = user["name"];
 
@@ -53,7 +52,7 @@ class UserModel extends ChangeNotifier {
       var loginData = new Map<String, dynamic>();
       loginData["email"] = data["email"];
       loginData["password"] = data["password"];
-      loginData["username"] = data["username"];
+      loginData["name"] = data["name"];
       return login(loginData);
     }
     return false;
