@@ -50,7 +50,7 @@ Future<List<dynamic>> sendRequest(
 }
 
 Future<List<dynamic>> loginUser(Map<String, dynamic> data) async {
-  List<dynamic> response = await sendRequest('/login', 'POST');
+  List<dynamic> response = await sendRequest('/login', data, 'POST');
   Map<String, dynamic> result = response[0]; // Response from API.
   if (response[0] != 200) {
     // Status code from API.
@@ -70,7 +70,7 @@ Future<List<dynamic>> loginUser(Map<String, dynamic> data) async {
 }
 
 Future<List<dynamic>> signUpUser(Map<String, dynamic> data) async {
-  List<dynamic> response = await sendRequest('/signup', 'POST');
+  List<dynamic> response = await sendRequest('/signup', data, 'POST');
   Map<String, dynamic> result = response[0]; //Response from API.
   return [response[0], result['message']]; //Return error message from API.
 }
@@ -113,23 +113,23 @@ Future<List<UrlData>> fillUserLists() async {
 }
 
 void logoutUser() async {
-  await sendRequest('/logout', 'GET');
+  await sendRequest('/logout', {}, 'GET');
 }
 
 Future<List<dynamic>> createShortLink(Map<String, dynamic> data) async {
-  List<dynamic> response = await sendRequest('create', 'POST');
+  List<dynamic> response = await sendRequest('create', data, 'POST');
   Map<String, dynamic> result = response[1]; //Response from API.
   return [response[0], result['message']]; //Return error message from API.
 }
 
 Future<List<dynamic>> createAuthShortLink(Map<String, dynamic> data) async {
-  List<dynamic> response = await sendRequest('/create', 'POST');
+  List<dynamic> response = await sendRequest('/create', data, 'POST');
   Map<String, dynamic> result = response[1]; //Response from API.
   return [response[0], result['message']]; //Return error message from API.
 }
 
 Future<List<dynamic>> getUserUrls() async {
-  List<dynamic> response = await sendRequest('urls/', 'GET');
+  List<dynamic> response = await sendRequest('urls/', {}, 'GET');
   Map<String, dynamic> result = response[1];
   print(result);
 
@@ -147,7 +147,7 @@ Future<List<dynamic>> getUserUrls() async {
 }
 
 Future<List<dynamic>> getUrlDetails() async {
-  List<dynamic> response = await sendRequest('url', 'GET');
+  List<dynamic> response = await sendRequest('url', {}, 'GET');
   Map<String, dynamic> result = response[1];
 
   if (response[0] != 200) {
@@ -159,12 +159,12 @@ Future<List<dynamic>> getUrlDetails() async {
 }
 
 Future<List<dynamic>> deleteUrl(int urlId) async {
-  List<dynamic> response = await sendRequest('urls/$urlId', 'DELETE');
+  List<dynamic> response = await sendRequest('urls/$urlId', {}, 'DELETE');
   return [response[0], response[1]];
 }
 
 Future<List<dynamic>> createNewUrl(Map<String, dynamic> data) async {
-  List<dynamic> response = await sendRequest('item', 'POST');
+  List<dynamic> response = await sendRequest('item', data, 'POST');
   return [response[0], response[1]];
 }
 
