@@ -16,6 +16,8 @@ class DirectShortScreen extends StatefulWidget {
 }
 
 class _DirectShortScreenState extends State<DirectShortScreen> {
+  String shortUrl = "Suppose this is the generated URL";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,11 +92,15 @@ class _DirectShortScreenState extends State<DirectShortScreen> {
 
                       popup.show(
                         title: 'Your Short Link',
-                        content: 'Shortened Link Here.',
+                        content: shortUrl,
                         actions: [
                           popup.button(
-                            label: 'Copy Link',
-                            onPressed: Navigator.of(context).pop,
+                            label: "Copy Short Url",
+                            onPressed: () {
+                              Clipboard.setData(ClipboardData(text: shortUrl));
+                              // ignore: unnecessary_statements
+                              Navigator.of(context).pop;
+                            },
                           ),
                         ],
                       );
