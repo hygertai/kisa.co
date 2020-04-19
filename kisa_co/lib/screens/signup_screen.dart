@@ -161,9 +161,10 @@ class _SignupScreenState extends State<SignupScreen> {
                         });
 
                         var data = Map<String, dynamic>();
+                        data["name"]=username;
                         data["email"] = email;
                         data["password"] = password;
-
+                        
                         var result = ' ';
                         await Provider.of<UserModel>(context, listen: false)
                             .signUp(data);

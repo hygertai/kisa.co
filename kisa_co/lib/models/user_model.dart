@@ -46,14 +46,16 @@ class UserModel extends ChangeNotifier {
 
   Future<bool> signUp(Map<String, dynamic> data) async {
     var response = await signUpUser(data);
-    var status = response;
+    var status = response[0];
 
     if (status == 200) {
-      var loginData = new Map<String, dynamic>();
-      loginData["email"] = data["email"];
-      loginData["password"] = data["password"];
-      loginData["name"] = data["name"];
-      return login(loginData);
+      print(response[1]);
+      // var loginData = new Map<String, dynamic>();
+      // loginData["email"] = data["email"];
+      // loginData["password"] = data["password"];
+      // loginData["name"] = data["name"];
+      return true;
+      //return login(loginData);
     }
     return false;
   }

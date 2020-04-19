@@ -4,24 +4,39 @@ import 'dart:core';
 import 'package:http/http.dart' as http;
 import 'package:kisaco/models/url_model.dart';
 
-String apiUrl = "http://139.59.155.177:8080/api/users";
+String apiUrl = "http://10.0.2.2:8080/api"; //TODO 
 
 Map<String, String> headers = {
   'Content-type': 'application/json',
   'Accept': 'application/json',
-  'Authorization':
-      'Bearer P342A8HtvavVuSDNKV2fMd9TZctxVLs8Cw2I2nfi6HlMIUFPc51MV66zYdwOPUno'
 };
 
-Future<List<dynamic>> sendRequest(
-    String url, Map<String, dynamic> reqBody, String method) async {
+String getQueryString(Map params, {String prefix: '&', bool inRecursion: false}) {
+    String query = '';
+    params.forEach((key, value) {
+        if (inRecursion) {
+            key = '[$key]';
+        }
+        if (value is String || value is int || value is double || value is bool) {
+            query += '$prefix$key=$value';
+        } else if (value is List || value is Map) {
+            if (value is List) value = value.asMap();
+            value.forEach((k, v) {
+                query += getQueryString({k: v}, prefix: '$prefix$key', inRecursion: true);
+            });
+        }
+   });
+   return query.substring(1);
+}
+
+Future<List<dynamic>> sendRequest(String url, Map<String, dynamic> reqBody, String method) async {
+  //POST: fixed
   if (method == "POST") {
-    final response = await http.post(apiUrl + url,
-        headers: headers, body: json.encode(reqBody));
-    updateCookie(response);
-    print(response.body);
+    String params = getQueryString(reqBody);
+    final response = await http.post(apiUrl + url + '?' + params);
     final responseJson = json.decode(response.body);
     return [response.statusCode, responseJson];
+
   } else if (method == "GET") {
     final response = await http.get(
       apiUrl + url,
@@ -69,10 +84,11 @@ Future<List<dynamic>> loginUser(Map<String, dynamic> data) async {
   }
 }
 
+//signup: fixed
 Future<List<dynamic>> signUpUser(Map<String, dynamic> data) async {
-  List<dynamic> response = await sendRequest('/signup', data, 'POST');
-  Map<String, dynamic> result = response[0]; //Response from API.
-  return [response[0], result['message']]; //Return error message from API.
+  print("working on requests");
+  List<dynamic> response = await sendRequest('/users/signup', data, 'POST');
+  return [response[0], response[1]]; //status code / user id 
 }
 
 Future<List<UrlData>> fillUserLists() async {
