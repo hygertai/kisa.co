@@ -71,17 +71,15 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Flexible(
-                    child: Container(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Container(
                       child: Image(image: AssetImage('images/login.png')),
                     ),
-                  ),
-                  Flexible(
-                    child: Container(
+                    Container(
                       padding: EdgeInsets.all(5),
                       child: TextField(
                         keyboardType: TextInputType.emailAddress,
@@ -101,9 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                  ),
-                  Flexible(
-                    child: Container(
+                    Container(
                       padding: EdgeInsets.all(5),
                       child: TextField(
                         obscureText: true,
@@ -123,9 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                  ),
-                  Flexible(
-                    child: RoundedButton(
+                    RoundedButton(
                       title: 'Log In',
                       colour: kDarkestPurpleColor,
                       onPressed: () async {
@@ -150,8 +144,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         });
                       },
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

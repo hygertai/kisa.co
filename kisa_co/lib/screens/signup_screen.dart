@@ -75,17 +75,15 @@ class _SignupScreenState extends State<SignupScreen> {
             child: Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Flexible(
-                    child: Container(
+              child: SingleChildScrollView(
+                child: Column(
+                  //mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Container(
                       child: Image(image: AssetImage('images/signup.png')),
                     ),
-                  ),
-                  Flexible(
-                    child: Container(
+                    Container(
                       padding: EdgeInsets.all(5),
                       child: TextField(
                         keyboardType: TextInputType.emailAddress,
@@ -105,9 +103,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                       ),
                     ),
-                  ),
-                  Flexible(
-                    child: Container(
+                    Container(
                       padding: EdgeInsets.all(5),
                       child: TextField(
                         obscureText: true,
@@ -127,9 +123,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                       ),
                     ),
-                  ),
-                  Flexible(
-                    child: Container(
+                    Container(
                       padding: EdgeInsets.all(5),
                       child: TextField(
                         textAlign: TextAlign.center,
@@ -150,9 +144,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                       ),
                     ),
-                  ),
-                  Flexible(
-                    child: RoundedButton(
+                    RoundedButton(
                       title: 'Register',
                       colour: kDarkestPurpleColor,
                       onPressed: () async {
@@ -179,8 +171,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         });
                       },
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
