@@ -48,66 +48,67 @@ class _DirectShortScreenState extends State<DirectShortScreen> {
           ),
           child: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Flexible(
-                  child: Container(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Container(
                     child: Image(image: AssetImage('images/shorten.png')),
                   ),
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                Text(
-                  'Direct Shortening',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 25.0, color: kLightPurpleColor),
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                TextField(
-                  keyboardType: TextInputType.emailAddress,
-                  textAlign: TextAlign.center,
-                  onChanged: (value) {},
-                  decoration: kTextFieldDecorationLog.copyWith(
-                      hintText: 'Enter link here'),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                RoundedButton(
-                  title: 'Shorten Link',
-                  colour: kLightPurpleColor,
-                  onPressed: () async {
-                    setState(() {
-                      //set state here
-                      //errorAlert(context);
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Text(
+                    'Direct Shortening',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 25.0, color: kLightPurpleColor),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  TextField(
+                    keyboardType: TextInputType.emailAddress,
+                    textAlign: TextAlign.center,
+                    onChanged: (value) {},
+                    decoration: kTextFieldDecorationLog.copyWith(
+                        hintText: 'Enter link here'),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  RoundedButton(
+                    title: 'Shorten Link',
+                    colour: kLightPurpleColor,
+                    onPressed: () async {
+                      setState(() {
+                        //set state here
+                        //errorAlert(context);
 
-                      final popup = BeautifulPopup(
-                        context: context,
-                        template: TemplateGreenRocket,
-                      );
+                        final popup = BeautifulPopup(
+                          context: context,
+                          template: TemplateGreenRocket,
+                        );
 
-                      popup.show(
-                        title: 'Your Short Link',
-                        content: shortUrl,
-                        actions: [
-                          popup.button(
-                            label: "Copy Short Url",
-                            onPressed: () {
-                              Clipboard.setData(ClipboardData(text: shortUrl));
-                              // ignore: unnecessary_statements
-                              Navigator.of(context).pop;
-                            },
-                          ),
-                        ],
-                      );
-                    });
-                  },
-                ),
-              ],
+                        popup.show(
+                          title: 'Your Short Link',
+                          content: shortUrl,
+                          actions: [
+                            popup.button(
+                              label: "Copy Short Url",
+                              onPressed: () {
+                                Clipboard.setData(
+                                    ClipboardData(text: shortUrl));
+                                // ignore: unnecessary_statements
+                                Navigator.of(context).pop;
+                              },
+                            ),
+                          ],
+                        );
+                      });
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

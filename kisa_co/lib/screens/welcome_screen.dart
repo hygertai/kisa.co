@@ -31,66 +31,73 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       //backgroundColor: Colors.black,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Row(
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Expanded(
-                  child: Container(
-                    child: Image(image: AssetImage('images/cloud.png')),
-                  ),
-                ),
                 SizedBox(
-                  width: 18.0,
+                  height: MediaQuery.of(context).size.width * 0.20,
                 ),
-              ],
-            ),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        child: Image(image: AssetImage('images/cloud.png')),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 18.0,
+                    ),
+                  ],
+                ),
 //            SizedBox(
 //              height: 48.0,
 //            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Expanded(
-                  child: RoundedButton(
-                    title: 'Log In',
-                    colour: kLightPinkColor,
-                    onPressed: () {
-                      Navigator.pushNamed(context, LoginScreen.id);
-                    },
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Expanded(
+                      child: RoundedButton(
+                        title: 'Log In',
+                        colour: kLightPinkColor,
+                        onPressed: () {
+                          Navigator.pushNamed(context, LoginScreen.id);
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20.0,
+                    ),
+                    Expanded(
+                      child: RoundedButton(
+                        title: 'Sign Up',
+                        colour: kPurpleColor,
+                        onPressed: () {
+                          Navigator.pushNamed(context, SignupScreen.id);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  width: 20.0,
+                RoundedButton(
+                  title: 'Shorten Link - Direct',
+                  colour: kBrownColor,
+                  onPressed: () {
+                    Navigator.pushNamed(context, DirectShortScreen.id);
+                  },
                 ),
-                Expanded(
-                  child: RoundedButton(
-                    title: 'Sign Up',
-                    colour: kPurpleColor,
-                    onPressed: () {
-                      Navigator.pushNamed(context, SignupScreen.id);
-                    },
-                  ),
+                RoundedButton(
+                  title: 'Shorten Link - Auth',
+                  colour: kBrownColor,
+                  onPressed: () {
+                    Navigator.pushNamed(context, AuthShortScreen.id);
+                  },
                 ),
               ],
             ),
-            RoundedButton(
-              title: 'Shorten Link - Direct',
-              colour: kBrownColor,
-              onPressed: () {
-                Navigator.pushNamed(context, DirectShortScreen.id);
-              },
-            ),
-            RoundedButton(
-              title: 'Shorten Link - Auth',
-              colour: kBrownColor,
-              onPressed: () {
-                Navigator.pushNamed(context, AuthShortScreen.id);
-              },
-            ),
-          ],
+          ),
         ),
       ),
     );
