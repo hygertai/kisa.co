@@ -5,6 +5,8 @@ import 'package:kisaco/models/url_model.dart';
 import 'package:kisaco/screens/authShort_screen.dart';
 import 'analytics_screen.dart';
 import 'constants.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 
 class DashboardScreen extends StatefulWidget {
   static const String id = 'dashboard_screen';
@@ -19,17 +21,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
     UrlData(
       created_at: '30/03/2020',
       orig_url: 'https://flutter.dev/docs/development/ui/widgets/text',
-      short_url: 'kisa.co/12dbh4',
+      short_url: 'https://kisa.co/12Xc3S3',
     ),
     UrlData(
       created_at: '20/02/2020',
       orig_url: 'https://flutter.dev/docs/development/ui/widgets/text',
-      short_url: 'kisa.co/12dbh4',
+      short_url: 'https://kisa.co/12Xc3S3',
     ),
     UrlData(
       created_at: '10/02/2020',
       orig_url: 'https://flutter.dev/docs/development/ui/widgets/text',
-      short_url: 'kisa.co/12dbh4',
+      short_url: 'https://kisa.co/12Xc3S3',
     ),
   ];
 
@@ -175,16 +177,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Text(
                           item.created_at,
                           style: TextStyle(
-                              color: kDarkestPurpleColor,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 17),
+                            color: kDarkestPurpleColor,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 17,
+                          ),
                         ),
                         Text(
                           item.orig_url,
                           style: TextStyle(fontSize: 14, color: Colors.black87),
                         ),
-                        Text(
-                          item.short_url,
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Linkify(
+                          onOpen: (link) async {
+                            if (await canLaunch(link.url)) {
+                              await launch(link.url);
+                            } else {
+                              throw 'Could not launch';
+                            }
+                          },
+                          text: item.short_url,
                           style: TextStyle(fontSize: 14, color: Colors.black87),
                         ),
                         SizedBox(
