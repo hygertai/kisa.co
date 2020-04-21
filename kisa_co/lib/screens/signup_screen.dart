@@ -157,11 +157,10 @@ class _SignupScreenState extends State<SignupScreen> {
                         data["email"] = email;
                         data["password"] = password;
                         
-                        var result = ' ';
-                        await Provider.of<UserModel>(context, listen: false)
+                        var result = await Provider.of<UserModel>(context, listen: false)
                             .signUp(data);
 
-                        if (result != null) {
+                        if (result == true) {
                           Navigator.pushNamed(context, DashboardScreen.id);
                         } else {
                           errorAlert(context);

@@ -63,32 +63,32 @@ Future<List<dynamic>> sendRequest(String url, Map<String, dynamic> reqBody, Stri
     return null;
   }
 }
-
-Future<List<dynamic>> loginUser(Map<String, dynamic> data) async {
-  List<dynamic> response = await sendRequest('/login', data, 'POST');
-  Map<String, dynamic> result = response[0]; // Response from API.
-  if (response[0] != 200) {
-    // Status code from API.
-    return [response[0], result['message']]; // Return error message from API.
-  } else {
-    String message = result['message'];
-    int userID = result['data']['user']['id'];
-    String email = result['data']['user']['email'];
-    String name = result['data']['user']['name'];
-    Map<String, dynamic> userDetails = {
-      'id': userID,
-      'email': email,
-      'name': name
-    };
-    return [response[0], message, userDetails];
-  }
-}
-
 //signup: fixed
 Future<List<dynamic>> signUpUser(Map<String, dynamic> data) async {
   print("working on requests");
   List<dynamic> response = await sendRequest('/users/signup', data, 'POST');
   return [response[0], response[1]]; //status code / user id 
+}
+
+Future<List<dynamic>> loginUser(Map<String, dynamic> data) async {
+  List<dynamic> response = await sendRequest('/users/login', data, 'POST');
+  String stringResponse = response[1]; // Response from API.
+  Map<String, dynamic> result = jsonDecode(stringResponse);
+  if (response[0] != 200) {
+    // Status code from API.
+    return [response[0], result['id']]; // Return error message from API.
+  } else {
+    //String message = result['message'];
+    int userID = result['id'];
+    String email = result['email'];
+    String name = result['name'];
+    Map<String, dynamic> userDetails = {
+      'id': userID,
+      'email': email,
+      'name': name
+    };
+    return [response[0], userDetails];
+  }
 }
 
 Future<List<UrlData>> fillUserLists() async {

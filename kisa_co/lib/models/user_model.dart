@@ -49,6 +49,7 @@ class UserModel extends ChangeNotifier {
     var status = response[0];
 
     if (status == 200) {
+      print("USER_MODEL: Sign up successful");
       print(response[1]);
       // var loginData = new Map<String, dynamic>();
       // loginData["email"] = data["email"];
@@ -57,7 +58,12 @@ class UserModel extends ChangeNotifier {
       return true;
       //return login(loginData);
     }
-    return false;
+    else{
+      print("USER_MODEL: Sign up failed");
+      print(response[1]);
+      return false;
+    }
+    
   }
 
   void logout() {
