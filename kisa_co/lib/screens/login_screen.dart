@@ -130,10 +130,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         var data = Map<String, dynamic>();
                         data["email"] = email;
                         data["password"] = password;
-                        var result = ' ';
-                        await Provider.of<UserModel>(context, listen: false)
-                            .login(data);
-                        if (result != null) {
+                        var result = await Provider.of<UserModel>(context, listen: false)
+                                    .login(data);
+                        if (result == true) {
                           Navigator.pushNamed(context, DashboardScreen.id);
                         } else {
                           //show error message

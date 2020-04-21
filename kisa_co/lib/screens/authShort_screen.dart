@@ -5,8 +5,11 @@ import 'package:kisaco/components/rounded_button.dart';
 import 'package:kisaco/screens/analytics_screen.dart';
 import 'package:kisaco/screens/dashboard_screen.dart';
 import 'package:kisaco/screens/welcome_screen.dart';
+import '../models/user_model.dart';
 import 'constants.dart';
 import 'package:flutter_beautiful_popup/main.dart';
+import 'package:provider/provider.dart';
+
 
 enum PrivacyChoice { public, private }
 
@@ -18,9 +21,9 @@ class AuthShortScreen extends StatefulWidget {
 }
 
 class _AuthShortScreenState extends State<AuthShortScreen> {
-  String shortUrl = "Suppose this is the generated URL";
-  PrivacyChoice _choice = PrivacyChoice.private;
+  PrivacyChoice _choice = PrivacyChoice.public;
   DateTime selectedDate = DateTime.now();
+  PrivacyChoice privChoice = PrivacyChoice.public;
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -52,6 +55,11 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String origUrl="";
+    String shortUrl="";
+    var expiresAt=DateTime.now();
+    int visitorLimit=0;
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('KISA.co'),
@@ -87,36 +95,6 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    textAlign: TextAlign.center,
-                    onChanged: (value) {},
-                    decoration: kTextFieldDecorationLog.copyWith(
-                        hintText: 'Enter link here'),
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    textAlign: TextAlign.center,
-                    onChanged: (value) {},
-                    decoration: kTextFieldDecorationLog.copyWith(
-                        hintText: 'Enter View Count Limitation'),
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    textAlign: TextAlign.center,
-                    onChanged: (value) {},
-                    decoration: kTextFieldDecorationLog.copyWith(
-                        hintText: 'Enter custom name (optional)'),
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
                   Text(
                     'Choose link privacy',
                     textAlign: TextAlign.center,
@@ -137,6 +115,8 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                         onChanged: (PrivacyChoice value) {
                           setState(() {
                             _choice = value;
+                            privChoice = value;
+                            print(privChoice);
                           });
                         },
                       ),
@@ -151,10 +131,53 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                         onChanged: (PrivacyChoice value) {
                           setState(() {
                             _choice = value;
+                            privChoice = value;
+                            print(privChoice);
                           });
                         },
                       ),
                     ],
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  TextField(
+                    keyboardType: TextInputType.emailAddress,
+                    textAlign: TextAlign.center,
+                    onChanged: (value) {
+                      origUrl = value;
+                    },
+                    decoration: kTextFieldDecorationLog.copyWith(
+                        hintText: 'Enter link here'),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  TextField(
+                    keyboardType: TextInputType.emailAddress,
+                    textAlign: TextAlign.center,
+                    onChanged: (value) {
+                      if(value==""){
+                        visitorLimit=0;
+                      }
+                      else{
+                        visitorLimit = int.parse(value);
+                      }
+                    },
+                    decoration: kTextFieldDecorationLog.copyWith(
+                        hintText: 'Enter View Count Limitation'),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  TextField(
+                    keyboardType: TextInputType.emailAddress,
+                    textAlign: TextAlign.center,
+                    onChanged: (value) {
+                      shortUrl=value;
+                    },
+                    decoration: kTextFieldDecorationLog.copyWith(
+                        hintText: 'Enter custom name (optional)'),
                   ),
                   SizedBox(
                     height: 10.0,
@@ -174,10 +197,29 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                     title: 'Shorten Link',
                     colour: kLightPurpleColor,
                     onPressed: () async {
+                      var data = Map<String,dynamic>();
+                        int privateMode = 0;
+                        print(privChoice);
+                        if(privChoice == PrivacyChoice.private){
+                          privateMode = 1;
+                        }
+                        data["orig_url"]=origUrl;
+                        data["short_url"]=shortUrl;
+                        data["expires_at"]=(selectedDate.millisecondsSinceEpoch/1000).round();
+                        data["private_mode"]=privateMode;
+                        data["visitor_limit"]=visitorLimit;
+
+                        if(privateMode==1){
+                          data["short_url"]="";
+                        }
+
+                        var result = await Provider.of<UserModel>(context, listen: false)
+                                    .createAuthLink(data);
+                        
                       setState(() {
                         //set state here
                         //errorAlert(context);
-
+                                    
                         final popup = BeautifulPopup(
                           context: context,
                           template: TemplateGreenRocket,
@@ -185,7 +227,7 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
 
                         popup.show(
                           title: 'Your Short Link',
-                          content: shortUrl,
+                          content: result,
                           actions: [
                             popup.button(
                               label: "Copy Short Url",

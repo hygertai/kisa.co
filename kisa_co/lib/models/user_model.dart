@@ -3,6 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:kisaco/models/url_model.dart';
 import 'package:kisaco/util/requests.dart';
 
+import '../util/requests.dart';
+import 'url_model.dart';
+import 'url_model.dart';
+
 class UserModel extends ChangeNotifier {
   int id;
   String email;
@@ -31,17 +35,21 @@ class UserModel extends ChangeNotifier {
     var response = await loginUser(data);
     var status = response[0];
     if (status == 200) {
-      var user = response[2];
-      //this.id = user["user_id"];
+      print("USER_MODEL login successful");
+      var user = response[1];
+      print(user);
+      this.id = user["id"];
       this.email = user["email"];
       this.name = user["name"];
-
       isLoggedIn = true;
-      response = await fillUserLists();
       notifyListeners();
       return true;
     }
-    return false;
+    else {
+      print("USER_MODEL login failed");
+      return false;
+    }
+    
   }
 
   Future<bool> signUp(Map<String, dynamic> data) async {
@@ -51,12 +59,11 @@ class UserModel extends ChangeNotifier {
     if (status == 200) {
       print("USER_MODEL: Sign up successful");
       print(response[1]);
-      // var loginData = new Map<String, dynamic>();
-      // loginData["email"] = data["email"];
-      // loginData["password"] = data["password"];
-      // loginData["name"] = data["name"];
-      return true;
-      //return login(loginData);
+      var loginData = new Map<String, dynamic>();
+      loginData["email"] = data["email"];
+      loginData["password"] = data["password"];
+      loginData["name"] = data["name"];
+      return login(loginData);
     }
     else{
       print("USER_MODEL: Sign up failed");
@@ -80,50 +87,31 @@ class UserModel extends ChangeNotifier {
     return _generatedUrl.length;
   }
 
-//  void addItem(String itemName) async {
-//    Map<String, dynamic> data = {
-//      'name': itemName,
-//      'list_id': this._generatedUrl[this.curListIndex].url_id
-//    };
-//
-//    List<dynamic> result = await createNewUrl(data);
-//
-//    if (result[0] == 200) {
-//      UrlData item = new UrlData(month, visitor_count);
-//      this._generatedUrl[curListIndex].addN(item);
-//      notifyListeners();
-//    }
-//    //TODO add warning message in case of failure
-//  }
-//
-//  void deleteItem(ItemModel item) async {
-//    List<dynamic> result = await deleteUserItem(item.listId, item.id);
-//
-//    if (result[0] == 200) {
-//      this._generatedUrl[curListIndex].deleteItem(item);
-//      notifyListeners();
-//    }
-//    //TODO add warning message in case of failure
-//  }
-//
-//  void changeItemName(ItemModel item, String newName) async {
-//    Map<String, dynamic> data = {"name": newName};
-//    List<dynamic> result = await updateUserItem(data, item);
-//    if (result[0] == 200) {
-//      item.setName(newName);
-//      notifyListeners();
-//    }
-//  }
-//
-//  //just being used after login, therefore there is no need for notifying listeners
-//  void setLists(List<ListModel> lists) {
-//    for (int i = 0; i < lists.length; i++) {
-//      if (lists[i].isArchived == false) {
-//        _generatedUrl.add(lists[i]);
-//      } else {
-//        _archivedLists.add(lists[i]);
-//      }
-//    }
-//  }
-
+  Future<String> createAuthLink(Map<String, dynamic> data) async {
+    data["user_id"]=this.id;
+    print("USER_MODEL: ");
+    print(data);
+    var response = await createAuthShortLink(data);
+    var status = response[0];
+    if(status == 200){
+      Map<String,dynamic> urlData = response[1];
+      UrlData newUrl = new UrlData(
+        visitor_count: urlData["visitorCount"],
+        is_private: urlData["private"],
+        visitor_limit: urlData["visitorLimit"],
+        creator_ip: urlData["creatorIP"],
+        expires_at: urlData["expiresAt"],
+        created_at: urlData["createdAt"],
+        short_url: urlData["shortURL"],
+        orig_url: urlData["origURL"],
+        url_id: urlData["id"],
+        user_id: urlData["userID"]
+      );
+      return "kisa.co/" + response[1]["shortURL"];
+    }
+    else{
+      print(response[1]);
+      return "Error";
+    }
+  }
 }

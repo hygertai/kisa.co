@@ -85,15 +85,15 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                     header: ''),
                 series: <ChartSeries<UrlData, String>>[
                   LineSeries<UrlData, String>(
-                      dataSource: <UrlData>[
-                        UrlData(url_id: 1, month: 'Jan', visitor_count: 35),
-                        UrlData(url_id: 1, month: 'Feb', visitor_count: 28),
-                        UrlData(url_id: 1, month: 'Mar', visitor_count: 34),
-                        UrlData(url_id: 1, month: 'Apr', visitor_count: 32),
-                        UrlData(url_id: 1, month: 'May', visitor_count: 40)
-                      ],
-                      xValueMapper: (UrlData sales, _) => sales.month,
-                      yValueMapper: (UrlData sales, _) => sales.visitor_count,
+                      // dataSource: <UrlData>[
+                      //   UrlData(url_id: 1, month: 'Jan', visitor_count: 35),
+                      //   UrlData(url_id: 1, month: 'Feb', visitor_count: 28),
+                      //   UrlData(url_id: 1, month: 'Mar', visitor_count: 34),
+                      //   UrlData(url_id: 1, month: 'Apr', visitor_count: 32),
+                      //   UrlData(url_id: 1, month: 'May', visitor_count: 40)
+                      // ],
+                      // xValueMapper: (UrlData sales, _) => sales.month,
+                      // yValueMapper: (UrlData sales, _) => sales.visitor_count,
                       // Enable data label
                       dataLabelSettings: DataLabelSettings(isVisible: true))
                 ]),

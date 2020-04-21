@@ -19,17 +19,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
   //an instance of the URL model comes here
   final List<UrlData> _data = [
     UrlData(
-      created_at: '30/03/2020',
+      created_at: 0,
       orig_url: 'https://flutter.dev/docs/development/ui/widgets/text',
       short_url: 'https://kisa.co/12Xc3S3',
     ),
     UrlData(
-      created_at: '20/02/2020',
+      created_at: 1,
       orig_url: 'https://flutter.dev/docs/development/ui/widgets/text',
       short_url: 'https://kisa.co/12Xc3S3',
     ),
     UrlData(
-      created_at: '10/02/2020',
+      created_at: 2,
       orig_url: 'https://flutter.dev/docs/development/ui/widgets/text',
       short_url: 'https://kisa.co/12Xc3S3',
     ),
@@ -175,7 +175,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          item.created_at,
+                          item.created_at.toString(),
                           style: TextStyle(
                             color: kDarkestPurpleColor,
                             fontWeight: FontWeight.w700,
