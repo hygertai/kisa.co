@@ -225,7 +225,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             icon: Icon(Icons.show_chart),
           ),
           BottomNavigationBarItem(
-            title: Text("Dashboard"),
+            title: Text("Profile"),
             icon: Icon(Icons.dashboard),
           ),
         ],

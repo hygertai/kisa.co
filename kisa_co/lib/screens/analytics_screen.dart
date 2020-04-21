@@ -181,7 +181,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
             icon: Icon(Icons.show_chart),
           ),
           BottomNavigationBarItem(
-            title: Text("Dashboard"),
+            title: Text("Profile"),
             icon: Icon(Icons.dashboard),
           ),
         ],
