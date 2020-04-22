@@ -40,8 +40,8 @@ Future<List<dynamic>> sendRequest(String url, Map<String, dynamic> reqBody, Stri
 
   } else if (method == "GET") {
     final response = await http.get(apiUrl + url);
-    //final responseJson = json.decode(response.body);
-    return [response.statusCode];
+    final responseJson = json.decode(response.body);
+    return [response.statusCode, responseJson];
 
   } else if (method == "DELETE") {
     final response = await http.delete(apiUrl + url);
@@ -84,9 +84,8 @@ Future<List<dynamic>> loginUser(Map<String, dynamic> data) async {
 }
 
 Future<List<dynamic>> createShortLink(Map<String, dynamic> data) async {
-  List<dynamic> response = await sendRequest('create', data, 'POST');
-  Map<String, dynamic> result = response[1]; //Response from API.
-  return [response[0], result['message']]; //Return error message from API.
+  List<dynamic> response = await sendRequest('/urls/create', data, 'POST');
+  return [response[0], response[1]]; //Return error message from API.
 }
 
 Future<List<dynamic>> createAuthShortLink(Map<String, dynamic> data) async {
@@ -98,7 +97,17 @@ Future<List<dynamic>> createAuthShortLink(Map<String, dynamic> data) async {
   else{
     return [response[0], response[1]];
   }
-  
+}
+
+Future<List<dynamic>> getUserAnalytics(int userId) async {
+  List<dynamic> response = await sendRequest('/analytics/$userId', {}, 'GET');
+  if(response[0]==200){
+    List<dynamic> result = response[1];
+    return [response[0], result]; //Return error message from API.
+  }
+  else{
+    return [response[0], response[1]];
+  }
 }
 
 Future<List<dynamic>> getUserUrls() async {

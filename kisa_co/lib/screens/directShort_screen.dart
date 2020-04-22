@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kisaco/components/rounded_button.dart';
-import 'package:kisaco/screens/analytics_screen.dart';
-import 'package:kisaco/screens/dashboard_screen.dart';
+import 'package:kisaco/models/user_model.dart';
 import 'package:kisaco/screens/welcome_screen.dart';
 import 'constants.dart';
 import 'package:flutter_beautiful_popup/main.dart';
+import 'package:provider/provider.dart';
 
 class DirectShortScreen extends StatefulWidget {
   static const String id = 'directshort_screen';
@@ -20,6 +20,9 @@ class _DirectShortScreenState extends State<DirectShortScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String origUrl;
+    String shortUrl;
+
     return Scaffold(
       appBar: AppBar(
         //backgroundColor: Colors.black,
@@ -69,7 +72,9 @@ class _DirectShortScreenState extends State<DirectShortScreen> {
                   TextField(
                     keyboardType: TextInputType.emailAddress,
                     textAlign: TextAlign.center,
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      origUrl = value;
+                    },
                     decoration: kTextFieldDecorationLog.copyWith(
                         hintText: 'Enter link here'),
                   ),
@@ -80,6 +85,16 @@ class _DirectShortScreenState extends State<DirectShortScreen> {
                     title: 'Shorten Link',
                     colour: kLightPurpleColor,
                     onPressed: () async {
+                      var data = Map<String,dynamic>();
+                      data["user_id"]=0;
+                      data["orig_url"]=origUrl;
+                      data["short_url"]="";
+                      data["expires_at"]=0;
+                      data["private_mode"]=0;
+                      data["visitor_limit"]=0;
+                      var result = await Provider.of<UserModel>(context, listen: false)
+                                    .createDirectShortLink(data);
+                      
                       setState(() {
                         //set state here
                         //errorAlert(context);
@@ -91,7 +106,7 @@ class _DirectShortScreenState extends State<DirectShortScreen> {
 
                         popup.show(
                           title: 'Your Short Link',
-                          content: shortUrl,
+                          content: result,
                           actions: [
                             popup.button(
                               label: "Copy Short Url",

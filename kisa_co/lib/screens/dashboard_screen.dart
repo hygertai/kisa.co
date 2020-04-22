@@ -85,7 +85,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 Container(
                                     padding:
                                         EdgeInsets.only(top: 15, bottom: 5),
-                                    child: Text("Active URLs",
+                                    child: Text("Number of URLs",
                                         style:
                                             TextStyle(color: Colors.black87))),
                                 Container(
@@ -96,22 +96,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             fontSize: 16))),
                               ],
                             ),
-                            Column(
-                              children: <Widget>[
-                                Container(
-                                    padding:
-                                        EdgeInsets.only(top: 15, bottom: 5),
-                                    child: Text("Dead URLs",
-                                        style:
-                                            TextStyle(color: Colors.black87))),
-                                Container(
-                                    padding: EdgeInsets.only(bottom: 15),
-                                    child: Text("2",
-                                        style: TextStyle(
-                                            color: Colors.black87,
-                                            fontSize: 16))),
-                              ],
-                            ),
+                            // Column(
+                            //   children: <Widget>[
+                            //     Container(
+                            //         padding:
+                            //             EdgeInsets.only(top: 15, bottom: 5),
+                            //         child: Text("Dead URLs",
+                            //             style:
+                            //                 TextStyle(color: Colors.black87))),
+                            //     Container(
+                            //         padding: EdgeInsets.only(bottom: 15),
+                            //         child: Text("2",
+                            //             style: TextStyle(
+                            //                 color: Colors.black87,
+                            //                 fontSize: 16))),
+                            //   ],
+                            // ),
                             Column(
                               children: <Widget>[
                                 Container(

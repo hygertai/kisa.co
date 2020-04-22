@@ -9,6 +9,7 @@ class UrlData {
   final int visitor_count;
   int visitor_limit;
   bool is_private;
+  List<dynamic> requests = [];
 
   UrlData(
       {this.visitor_count,

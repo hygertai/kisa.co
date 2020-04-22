@@ -23,9 +23,12 @@ class AuthShortScreen extends StatefulWidget {
 class _AuthShortScreenState extends State<AuthShortScreen> {
   PrivacyChoice _choice = PrivacyChoice.public;
   DateTime selectedDate = DateTime.now();
+  bool dateSelected = false;
   PrivacyChoice privChoice = PrivacyChoice.public;
 
   Future<Null> _selectDate(BuildContext context) async {
+    print("Date picker called");
+    dateSelected = true;
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -57,7 +60,6 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
   Widget build(BuildContext context) {
     String origUrl="";
     String shortUrl="";
-    var expiresAt=DateTime.now();
     int visitorLimit=0;
     
     return Scaffold(
@@ -203,11 +205,21 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                         if(privChoice == PrivacyChoice.private){
                           privateMode = 1;
                         }
+
+                        if(dateSelected == false){
+                          data["expires_at"]=0;
+                        }
+                        else{
+                          data["expires_at"]=(selectedDate.millisecondsSinceEpoch/1000).round();
+                        }
+
                         data["orig_url"]=origUrl;
                         data["short_url"]=shortUrl;
-                        data["expires_at"]=(selectedDate.millisecondsSinceEpoch/1000).round();
                         data["private_mode"]=privateMode;
                         data["visitor_limit"]=visitorLimit;
+
+                        print(DateTime.now());
+                        print(data["expires_at"]);
 
                         if(privateMode==1){
                           data["short_url"]="";

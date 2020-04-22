@@ -39,22 +39,17 @@ class UserModel extends ChangeNotifier {
     var response = await loginUser(data);
     var status = response[0];
     if (status == 200) {
-      print("USER_MODEL login successful");
       var user = response[1];
-      print(user);
       this.id = user["id"];
       this.email = user["email"];
       this.name = user["name"];
       isLoggedIn = true;
       notifyListeners();
+      getAnalytics();
       return true;
-    }
-    else {
-      print("USER_MODEL login failed");
-      print(response[1]);
+    } else {
       return false;
     }
-    
   }
 
   Future<bool> signUp(Map<String, dynamic> data) async {
@@ -62,17 +57,12 @@ class UserModel extends ChangeNotifier {
     var status = response[0];
 
     if (status == 200) {
-      print("USER_MODEL: Sign up successful");
-      print(response[1]);
       var loginData = new Map<String, dynamic>();
       loginData["email"] = data["email"];
       loginData["password"] = data["password"];
       loginData["name"] = data["name"];
       return login(loginData);
-    }
-    else{
-      print("USER_MODEL: Sign up failed");
-      print(response[1]);
+    } else {
       return false;
     }
   }
@@ -91,31 +81,88 @@ class UserModel extends ChangeNotifier {
     return _generatedUrl.length;
   }
 
-  Future<String> createAuthLink(Map<String, dynamic> data) async {
-    data["user_id"]=this.id;
-    print("USER_MODEL: Creating auth short link: ");
-    print(data);
-    var response = await createAuthShortLink(data);
-    var status = response[0];
-    if(status == 200){
-      Map<String,dynamic> urlData = response[1];
-      UrlData newUrl = new UrlData(
-        visitor_count: urlData["visitorCount"],
-        is_private: urlData["private"],
-        visitor_limit: urlData["visitorLimit"],
-        creator_ip: urlData["creatorIP"],
-        expires_at: urlData["expiresAt"],
-        created_at: urlData["createdAt"],
-        short_url: urlData["shortURL"],
-        orig_url: urlData["origURL"],
-        url_id: urlData["id"],
-        user_id: urlData["userID"]
-      );
-      _generatedUrl.add(newUrl); //add new url to list 
-      return "kisa.co/" + response[1]["shortURL"];
+  Future<bool> getAnalytics() async {
+    var response = await getUserAnalytics(id);
+
+    if (response[0] == 200) {
+      List<dynamic> userData = response[1];
+      for (int i = 0; i < userData.length; i++) {
+        var analytic = userData[i]; // Map string dynamic
+        var urlData = analytic["url"]; // Url objesi(MAP)
+        var requests = analytic["requests"]; //List of maps
+
+        //Fill user url list
+        UrlData newUrl = new UrlData(
+            visitor_count: urlData["visitorCount"],
+            is_private: urlData["private"],
+            visitor_limit: urlData["visitorLimit"],
+            creator_ip: urlData["creatorIP"],
+            expires_at: urlData["expiresAt"],
+            created_at: urlData["createdAt"],
+            short_url: urlData["shortURL"],
+            orig_url: urlData["origURL"],
+            url_id: urlData["id"],
+            user_id: urlData["userID"]);
+        
+        newUrl.requests = requests;
+        _generatedUrl.add(newUrl);
+      }
+      return true;
     }
     else{
-      print(response[1]);
+      return false;
+    }
+  }
+
+  Future<bool> fillUrlRequest() async {
+  var response = await getUserAnalytics(id);
+
+    if (response[0] == 200) {
+      List<dynamic> userData = response[1];
+      for (int i = 0; i < userData.length; i++) {
+        var analytic = userData[i]; // Map string dynamic
+        //var urlData = analytic["url"]; // Url objesi(MAP)
+        var requests = analytic["requests"]; //List of maps
+        
+        _generatedUrl[i].requests = requests;
+      }
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+  Future<String> createDirectShortLink(Map<String, dynamic> data) async {
+    var response = await createShortLink(data);
+    var status = response[0];
+    if (status == 200) {
+      return "kisa.co/" + response[1]["shortURL"];
+    } else {
+      return "Error";
+    }
+  }
+
+  Future<String> createAuthLink(Map<String, dynamic> data) async {
+    data["user_id"] = this.id;
+    var response = await createAuthShortLink(data);
+    var status = response[0];
+    if (status == 200) {
+      Map<String, dynamic> urlData = response[1];
+      UrlData newUrl = new UrlData(
+          visitor_count: urlData["visitorCount"],
+          is_private: urlData["private"],
+          visitor_limit: urlData["visitorLimit"],
+          creator_ip: urlData["creatorIP"],
+          expires_at: urlData["expiresAt"],
+          created_at: urlData["createdAt"],
+          short_url: urlData["shortURL"],
+          orig_url: urlData["origURL"],
+          url_id: urlData["id"],
+          user_id: urlData["userID"]);
+      _generatedUrl.add(newUrl); //add new url to list
+      return "kisa.co/" + response[1]["shortURL"];
+    } else {
       return "Error";
     }
   }
