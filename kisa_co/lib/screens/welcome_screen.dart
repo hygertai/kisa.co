@@ -27,79 +27,83 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      //backgroundColor: Colors.black,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.20,
-                ),
-                Row(
+    return Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("images/back.jpg"), fit: BoxFit.cover)),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24.0),
+            child: SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        child: Image(image: AssetImage('images/cloud.png')),
-                      ),
-                    ),
                     SizedBox(
-                      width: 18.0,
+                      height: MediaQuery.of(context).size.width * 0.30,
                     ),
-                  ],
-                ),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Container(
+                            child: Image(image: AssetImage('images/cloud.png')),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 18.0,
+                        ),
+                      ],
+                    ),
 //            SizedBox(
 //              height: 48.0,
 //            ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Expanded(
-                      child: RoundedButton(
-                        title: 'Log In',
-                        colour: kLightPinkColor,
-                        onPressed: () {
-                          Navigator.pushNamed(context, LoginScreen.id);
-                        },
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Expanded(
+                          child: RoundedButton(
+                            title: 'Log In',
+                            colour: kLightPinkColor,
+                            onPressed: () {
+                              Navigator.pushNamed(context, LoginScreen.id);
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20.0,
+                        ),
+                        Expanded(
+                          child: RoundedButton(
+                            title: 'Sign Up',
+                            colour: kPurpleColor,
+                            onPressed: () {
+                              Navigator.pushNamed(context, SignupScreen.id);
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      width: 20.0,
+                    RoundedButton(
+                      title: 'Shorten Link - Direct',
+                      colour: kBrownColor,
+                      onPressed: () {
+                        Navigator.pushNamed(context, DirectShortScreen.id);
+                      },
                     ),
-                    Expanded(
-                      child: RoundedButton(
-                        title: 'Sign Up',
-                        colour: kPurpleColor,
-                        onPressed: () {
-                          Navigator.pushNamed(context, SignupScreen.id);
-                        },
-                      ),
-                    ),
+//                    RoundedButton(
+//                      title: 'Shorten Link - Auth',
+//                      colour: kBrownColor,
+//                      onPressed: () {
+//                        Navigator.pushNamed(context, AuthShortScreen.id);
+//                      },
+//                    ),
                   ],
                 ),
-                RoundedButton(
-                  title: 'Shorten Link - Direct',
-                  colour: kBrownColor,
-                  onPressed: () {
-                    Navigator.pushNamed(context, DirectShortScreen.id);
-                  },
-                ),
-                RoundedButton(
-                  title: 'Shorten Link - Auth',
-                  colour: kBrownColor,
-                  onPressed: () {
-                    Navigator.pushNamed(context, AuthShortScreen.id);
-                  },
-                ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }
