@@ -17,6 +17,10 @@ class UserModel extends ChangeNotifier {
 
   UserModel({this.id, this.email, this.name});
 
+  UnmodifiableListView<UrlData> get generatedUrl {
+    return UnmodifiableListView(_generatedUrl);
+  }
+
 //  List<UrlData> getUrls() {
 //    if (this.urls.length == 0) {
 //      return null;
@@ -47,6 +51,7 @@ class UserModel extends ChangeNotifier {
     }
     else {
       print("USER_MODEL login failed");
+      print(response[1]);
       return false;
     }
     
@@ -70,7 +75,6 @@ class UserModel extends ChangeNotifier {
       print(response[1]);
       return false;
     }
-    
   }
 
   void logout() {
@@ -89,7 +93,7 @@ class UserModel extends ChangeNotifier {
 
   Future<String> createAuthLink(Map<String, dynamic> data) async {
     data["user_id"]=this.id;
-    print("USER_MODEL: ");
+    print("USER_MODEL: Creating auth short link: ");
     print(data);
     var response = await createAuthShortLink(data);
     var status = response[0];
@@ -107,6 +111,7 @@ class UserModel extends ChangeNotifier {
         url_id: urlData["id"],
         user_id: urlData["userID"]
       );
+      _generatedUrl.add(newUrl); //add new url to list 
       return "kisa.co/" + response[1]["shortURL"];
     }
     else{

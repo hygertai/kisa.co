@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kisaco/models/url_model.dart';
+import 'package:kisaco/models/user_model.dart';
 import 'package:kisaco/screens/authShort_screen.dart';
 import 'analytics_screen.dart';
 import 'constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:provider/provider.dart';
 
 class DashboardScreen extends StatefulWidget {
   static const String id = 'dashboard_screen';
@@ -16,27 +18,11 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  //an instance of the URL model comes here
-  final List<UrlData> _data = [
-    UrlData(
-      created_at: 0,
-      orig_url: 'https://flutter.dev/docs/development/ui/widgets/text',
-      short_url: 'https://kisa.co/12Xc3S3',
-    ),
-    UrlData(
-      created_at: 1,
-      orig_url: 'https://flutter.dev/docs/development/ui/widgets/text',
-      short_url: 'https://kisa.co/12Xc3S3',
-    ),
-    UrlData(
-      created_at: 2,
-      orig_url: 'https://flutter.dev/docs/development/ui/widgets/text',
-      short_url: 'https://kisa.co/12Xc3S3',
-    ),
-  ];
-
+  //an instance of the URL model comes here                            
   @override
   Widget build(BuildContext context) {
+    List<UrlData> _data =  Provider.of<UserModel>(context, listen: false).generatedUrl;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -68,7 +54,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       padding: EdgeInsets.all(4),
                     ),
                     Text(
-                      "Hygerta Imeri",
+                      Provider.of<UserModel>(context, listen: false).name,
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
@@ -79,7 +65,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       padding: EdgeInsets.all(4),
                     ),
                     Text(
-                      "user@gmail.com",
+                      Provider.of<UserModel>(context, listen: false).email,
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w400,
@@ -168,6 +154,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 itemCount: _data.length,
                 itemBuilder: (BuildContext context, int index) {
                   UrlData item = _data[index];
+                  var date = new DateTime.fromMillisecondsSinceEpoch(item.created_at * 1000);
+                  String origUrl = item.orig_url;
+                  String shortUrl = item.short_url;
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -175,7 +164,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          item.created_at.toString(),
+                          "Created at:",
                           style: TextStyle(
                             color: kDarkestPurpleColor,
                             fontWeight: FontWeight.w700,
@@ -183,7 +172,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                         ),
                         Text(
-                          item.orig_url,
+                          date.toString().substring(0,10),
+                          style: TextStyle(
+                            color: kDarkestPurpleColor,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 17,
+                          ),
+                        ),
+                        Text(
+                          "Original URL:" + origUrl,
                           style: TextStyle(fontSize: 14, color: Colors.black87),
                         ),
                         SizedBox(
@@ -197,7 +194,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               throw 'Could not launch';
                             }
                           },
-                          text: item.short_url,
+                          text: "Short URL: " + "kisaco/" + shortUrl,
                           style: TextStyle(fontSize: 14, color: Colors.black87),
                         ),
                         SizedBox(

@@ -4,7 +4,8 @@ import 'dart:core';
 import 'package:http/http.dart' as http;
 import 'package:kisaco/models/url_model.dart';
 
-String apiUrl = "http://10.0.2.2:8080/api"; //TODO 
+//String apiUrl = "http://10.0.2.2:8080/api"; //local
+String apiUrl = "http://139.59.155.177:8080/api";
 
 Map<String, String> headers = {
   'Content-type': 'application/json',
@@ -33,7 +34,6 @@ Future<List<dynamic>> sendRequest(String url, Map<String, dynamic> reqBody, Stri
   //POST: fixed
   if (method == "POST") {
     String params = getQueryString(reqBody);
-    print(params);
     final response = await http.post(apiUrl + url + '?' + params);
     final responseJson = json.decode(response.body);
     return [response.statusCode, responseJson];
@@ -64,8 +64,8 @@ Future<List<dynamic>> signUpUser(Map<String, dynamic> data) async {
 
 Future<List<dynamic>> loginUser(Map<String, dynamic> data) async {
   List<dynamic> response = await sendRequest('/users/login', data, 'POST');
-  String stringResponse = response[1]; // Response from API.
-  Map<String, dynamic> result = jsonDecode(stringResponse);
+  //String stringResponse = response[1]; // Response from API.
+  Map<String, dynamic> result = response[1];
   if (response[0] != 200) {
     // Status code from API.
     return [response[0], result['id']]; // Return error message from API.
@@ -92,8 +92,7 @@ Future<List<dynamic>> createShortLink(Map<String, dynamic> data) async {
 Future<List<dynamic>> createAuthShortLink(Map<String, dynamic> data) async {
   List<dynamic> response = await sendRequest('/urls/create', data, 'POST');
   if(response[0]==200){
-    String stringResponse = response[1]; // Response from API.
-    Map<String, dynamic> result = jsonDecode(stringResponse);
+    Map<String, dynamic> result = response[1];
     return [response[0], result]; //Return error message from API.
   }
   else{
