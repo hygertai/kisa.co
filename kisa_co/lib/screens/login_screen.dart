@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kisaco/models/user_model.dart';
+import 'package:kisaco/screens/authShort_screen.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:kisaco/components/rounded_button.dart';
 import 'package:kisaco/screens/constants.dart';
@@ -134,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         await Provider.of<UserModel>(context, listen: false)
                             .login(data);
                         if (result != null) {
-                          Navigator.pushNamed(context, DashboardScreen.id);
+                          Navigator.pushNamed(context, AuthShortScreen.id);
                         } else {
                           //show error message
                           errorAlert(context);
