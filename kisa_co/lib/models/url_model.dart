@@ -1,4 +1,15 @@
 class UrlData {
+  int url_id;
+  int user_id;
+  String orig_url;
+  String short_url;
+  int created_at;
+  int expires_at;
+  String creator_ip;
+  final int visitor_count;
+  int visitor_limit;
+  bool is_private;
+
   UrlData(
       {this.visitor_count,
       this.is_private,
@@ -9,18 +20,7 @@ class UrlData {
       this.short_url,
       this.orig_url,
       this.url_id,
-      this.month});
-
-  int url_id;
-  String orig_url;
-  String short_url;
-  String created_at;
-  int expires_at;
-  String creator_ip;
-  final int visitor_count;
-  int visitor_limit;
-  bool is_private;
-  String month;
+      this.user_id});
 
   factory UrlData.fromJson(Map<String, dynamic> json) {
     //   bool flag = false;
@@ -30,7 +30,6 @@ class UrlData {
 //    }
 
     UrlData newModel = UrlData(
-      month: json['month'],
       visitor_count: json['visitor_count'],
     );
     return newModel;
