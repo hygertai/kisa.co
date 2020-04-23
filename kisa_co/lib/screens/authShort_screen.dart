@@ -10,7 +10,6 @@ import 'constants.dart';
 import 'package:flutter_beautiful_popup/main.dart';
 import 'package:provider/provider.dart';
 
-
 enum PrivacyChoice { public, private }
 
 class AuthShortScreen extends StatefulWidget {
@@ -58,10 +57,10 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String origUrl="";
-    String shortUrl="";
-    int visitorLimit=0;
-    
+    String origUrl = "";
+    String shortUrl = "";
+    int visitorLimit = 0;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('KISA.co'),
@@ -144,7 +143,7 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                     height: 10.0,
                   ),
                   TextField(
-                    keyboardType: TextInputType.emailAddress,
+                    keyboardType: TextInputType.url,
                     textAlign: TextAlign.center,
                     onChanged: (value) {
                       origUrl = value;
@@ -156,13 +155,12 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                     height: 10.0,
                   ),
                   TextField(
-                    keyboardType: TextInputType.emailAddress,
+                    keyboardType: TextInputType.number,
                     textAlign: TextAlign.center,
                     onChanged: (value) {
-                      if(value==""){
-                        visitorLimit=0;
-                      }
-                      else{
+                      if (value == "") {
+                        visitorLimit = 0;
+                      } else {
                         visitorLimit = int.parse(value);
                       }
                     },
@@ -173,10 +171,10 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                     height: 10.0,
                   ),
                   TextField(
-                    keyboardType: TextInputType.emailAddress,
+                    keyboardType: TextInputType.text,
                     textAlign: TextAlign.center,
                     onChanged: (value) {
-                      shortUrl=value;
+                      shortUrl = value;
                     },
                     decoration: kTextFieldDecorationLog.copyWith(
                         hintText: 'Enter custom name (optional)'),
@@ -199,39 +197,41 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                     title: 'Shorten Link',
                     colour: kLightPurpleColor,
                     onPressed: () async {
-                      var data = Map<String,dynamic>();
-                        int privateMode = 0;
-                        print(privChoice);
-                        if(privChoice == PrivacyChoice.private){
-                          privateMode = 1;
-                        }
+                      var data = Map<String, dynamic>();
+                      int privateMode = 0;
+                      print(privChoice);
+                      if (privChoice == PrivacyChoice.private) {
+                        privateMode = 1;
+                      }
 
-                        if(dateSelected == false){
-                          data["expires_at"]=0;
-                        }
-                        else{
-                          data["expires_at"]=(selectedDate.millisecondsSinceEpoch/1000).round();
-                        }
+                      if (dateSelected == false) {
+                        data["expires_at"] = 0;
+                      } else {
+                        data["expires_at"] =
+                            (selectedDate.millisecondsSinceEpoch / 1000)
+                                .round();
+                      }
 
-                        data["orig_url"]=origUrl;
-                        data["short_url"]=shortUrl;
-                        data["private_mode"]=privateMode;
-                        data["visitor_limit"]=visitorLimit;
+                      data["orig_url"] = origUrl;
+                      data["short_url"] = shortUrl;
+                      data["private_mode"] = privateMode;
+                      data["visitor_limit"] = visitorLimit;
 
-                        print(DateTime.now());
-                        print(data["expires_at"]);
+                      print(DateTime.now());
+                      print(data["expires_at"]);
 
-                        if(privateMode==1){
-                          data["short_url"]="";
-                        }
+                      if (privateMode == 1) {
+                        data["short_url"] = "";
+                      }
 
-                        var result = await Provider.of<UserModel>(context, listen: false)
-                                    .createAuthLink(data);
-                        
+                      var result =
+                          await Provider.of<UserModel>(context, listen: false)
+                              .createAuthLink(data);
+
                       setState(() {
                         //set state here
                         //errorAlert(context);
-                                    
+
                         final popup = BeautifulPopup(
                           context: context,
                           template: TemplateGreenRocket,

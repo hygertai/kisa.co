@@ -4,11 +4,13 @@ import 'package:flutter/services.dart';
 import 'package:kisaco/models/url_model.dart';
 import 'package:kisaco/models/user_model.dart';
 import 'package:kisaco/screens/authShort_screen.dart';
+import 'package:kisaco/screens/welcome_screen.dart';
 import 'analytics_screen.dart';
 import 'constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:provider/provider.dart';
+import 'package:kisaco/components/rounded_button.dart';
 
 class DashboardScreen extends StatefulWidget {
   static const String id = 'dashboard_screen';
@@ -18,10 +20,22 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  //an instance of the URL model comes here                            
+  //an instance of the URL model comes here
   @override
   Widget build(BuildContext context) {
-    List<UrlData> _data =  Provider.of<UserModel>(context, listen: false).generatedUrl;
+    List<UrlData> _data =
+        Provider.of<UserModel>(context, listen: false).generatedUrl;
+    int totalUrls = _data.length;
+
+    int totalViews(_data) {
+      int totalViewSum = 0;
+      for (int i = 0; i < _data.length; i++) {
+        totalViewSum = _data[i].visitor_count + totalViewSum;
+      }
+      return totalViewSum;
+    }
+
+    int userTotalViews = totalViews(_data);
 
     return Scaffold(
       appBar: AppBar(
@@ -34,6 +48,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: ListView(
           children: <Widget>[
             Stack(
+              fit: StackFit.loose,
               children: <Widget>[
                 Container(
                   width: double.infinity,
@@ -43,13 +58,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Column(
                   children: <Widget>[
                     Container(
-                        height: 90,
-                        margin: EdgeInsets.only(top: 60),
-                        child: CircleAvatar(
-                          radius: 50,
-                          backgroundColor: Colors.white,
-                          child: Image(image: AssetImage('images/logo.png')),
-                        )),
+                      height: 90,
+                      margin: EdgeInsets.only(top: 60),
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Colors.white,
+                        child: Image(image: AssetImage('images/logo.png')),
+                      ),
+                    ),
                     Padding(
                       padding: EdgeInsets.all(4),
                     ),
@@ -72,6 +88,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           fontSize: 16),
                       textAlign: TextAlign.center,
                     ),
+
                     Container(
                       margin: EdgeInsets.only(top: 77),
                       padding: EdgeInsets.all(10),
@@ -90,7 +107,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             TextStyle(color: Colors.black87))),
                                 Container(
                                     padding: EdgeInsets.only(bottom: 15),
-                                    child: Text("15",
+                                    child: Text("$totalUrls",
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 16))),
@@ -122,7 +139,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             TextStyle(color: Colors.black87))),
                                 Container(
                                     padding: EdgeInsets.only(bottom: 10),
-                                    child: Text("389",
+                                    child: Text("$userTotalViews",
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 16))),
@@ -154,7 +171,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 itemCount: _data.length,
                 itemBuilder: (BuildContext context, int index) {
                   UrlData item = _data[index];
-                  var date = new DateTime.fromMillisecondsSinceEpoch(item.created_at * 1000);
+                  var date = new DateTime.fromMillisecondsSinceEpoch(
+                      item.created_at * 1000);
                   String origUrl = item.orig_url;
                   String shortUrl = item.short_url;
                   return Padding(
@@ -172,7 +190,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                         ),
                         Text(
-                          date.toString().substring(0,10),
+                          date.toString().substring(0, 10),
                           style: TextStyle(
                             color: kDarkestPurpleColor,
                             fontWeight: FontWeight.w700,
@@ -180,21 +198,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                         ),
                         Text(
-                          "Original URL:" + origUrl,
+                          "Original URL: $origUrl",
                           style: TextStyle(fontSize: 14, color: Colors.black87),
                         ),
                         SizedBox(
                           height: 5,
                         ),
                         Linkify(
-                          onOpen: (link) async {
-                            if (await canLaunch(link.url)) {
-                              await launch(link.url);
+                          onOpen: (shortUrl) async {
+                            if (await canLaunch(shortUrl.url)) {
+                              await launch(shortUrl.url);
                             } else {
                               throw 'Could not launch';
                             }
                           },
-                          text: "Short URL: " + "kisaco/" + shortUrl,
+                          text: 'Short URL: kisaco/$shortUrl',
+                          options: LinkifyOptions(humanize: false),
                           style: TextStyle(fontSize: 14, color: Colors.black87),
                         ),
                         SizedBox(
@@ -203,6 +222,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ],
                     ),
                   );
+                },
+              ),
+            ),
+            Container(
+              height: 80,
+              margin: EdgeInsets.only(top: 60),
+              child: RoundedButton(
+                title: 'Log Out',
+                colour: kLightPurpleColor,
+                onPressed: () {
+                  Provider.of<UserModel>(context, listen: false).logout();
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => WelcomeScreen()),
+                      (Route<dynamic> route) => false);
                 },
               ),
             ),

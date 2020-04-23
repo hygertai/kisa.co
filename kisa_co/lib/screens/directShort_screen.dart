@@ -70,7 +70,7 @@ class _DirectShortScreenState extends State<DirectShortScreen> {
                     height: 20.0,
                   ),
                   TextField(
-                    keyboardType: TextInputType.emailAddress,
+                    keyboardType: TextInputType.url,
                     textAlign: TextAlign.center,
                     onChanged: (value) {
                       origUrl = value;
@@ -85,16 +85,17 @@ class _DirectShortScreenState extends State<DirectShortScreen> {
                     title: 'Shorten Link',
                     colour: kLightPurpleColor,
                     onPressed: () async {
-                      var data = Map<String,dynamic>();
-                      data["user_id"]=0;
-                      data["orig_url"]=origUrl;
-                      data["short_url"]="";
-                      data["expires_at"]=0;
-                      data["private_mode"]=0;
-                      data["visitor_limit"]=0;
-                      var result = await Provider.of<UserModel>(context, listen: false)
-                                    .createDirectShortLink(data);
-                      
+                      var data = Map<String, dynamic>();
+                      data["user_id"] = 0;
+                      data["orig_url"] = origUrl;
+                      data["short_url"] = "";
+                      data["expires_at"] = 0;
+                      data["private_mode"] = 0;
+                      data["visitor_limit"] = 0;
+                      var result =
+                          await Provider.of<UserModel>(context, listen: false)
+                              .createDirectShortLink(data);
+
                       setState(() {
                         //set state here
                         //errorAlert(context);
