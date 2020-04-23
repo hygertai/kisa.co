@@ -133,7 +133,6 @@
 				97C146EC1CF9000F007C117D /* Resources */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				C9B4211EAFAC701CFAD18995 /* [CP] Embed Pods Frameworks */,
-				215CFAEA9BFC86422AC046F9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -193,21 +192,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		215CFAEA9BFC86422AC046F9 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		3B06AD1E1E4923F5004D2608 /* Thin Binary */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -401,12 +385,6 @@
 					"-framework",
 					"\"GLKit\"",
 					"-framework",
-					"\"GoogleMaps\"",
-					"-framework",
-					"\"GoogleMapsBase\"",
-					"-framework",
-					"\"GoogleMapsCore\"",
-					"-framework",
 					"\"ImageIO\"",
 					"-framework",
 					"\"OpenGLES\"",
@@ -416,18 +394,6 @@
 					"\"SystemConfiguration\"",
 					"-framework",
 					"\"UIKit\"",
-					"-framework",
-					"\"flutter_local_notifications\"",
-					"-framework",
-					"\"flutter_plugin_android_lifecycle\"",
-					"-framework",
-					"\"geolocator\"",
-					"-framework",
-					"\"google_api_availability\"",
-					"-framework",
-					"\"google_maps_flutter\"",
-					"-framework",
-					"\"location_permissions\"",
 					"-framework",
 					"\"url_launcher\"",
 					"-framework",
@@ -592,12 +558,6 @@
 					"-framework",
 					"\"GLKit\"",
 					"-framework",
-					"\"GoogleMaps\"",
-					"-framework",
-					"\"GoogleMapsBase\"",
-					"-framework",
-					"\"GoogleMapsCore\"",
-					"-framework",
 					"\"ImageIO\"",
 					"-framework",
 					"\"OpenGLES\"",
@@ -607,18 +567,6 @@
 					"\"SystemConfiguration\"",
 					"-framework",
 					"\"UIKit\"",
-					"-framework",
-					"\"flutter_local_notifications\"",
-					"-framework",
-					"\"flutter_plugin_android_lifecycle\"",
-					"-framework",
-					"\"geolocator\"",
-					"-framework",
-					"\"google_api_availability\"",
-					"-framework",
-					"\"google_maps_flutter\"",
-					"-framework",
-					"\"location_permissions\"",
 					"-framework",
 					"\"url_launcher\"",
 					"-framework",
@@ -676,12 +624,6 @@
 					"-framework",
 					"\"GLKit\"",
 					"-framework",
-					"\"GoogleMaps\"",
-					"-framework",
-					"\"GoogleMapsBase\"",
-					"-framework",
-					"\"GoogleMapsCore\"",
-					"-framework",
 					"\"ImageIO\"",
 					"-framework",
 					"\"OpenGLES\"",
@@ -691,18 +633,6 @@
 					"\"SystemConfiguration\"",
 					"-framework",
 					"\"UIKit\"",
-					"-framework",
-					"\"flutter_local_notifications\"",
-					"-framework",
-					"\"flutter_plugin_android_lifecycle\"",
-					"-framework",
-					"\"geolocator\"",
-					"-framework",
-					"\"google_api_availability\"",
-					"-framework",
-					"\"google_maps_flutter\"",
-					"-framework",
-					"\"location_permissions\"",
 					"-framework",
 					"\"url_launcher\"",
 					"-framework",
