@@ -282,7 +282,11 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                                 Clipboard.setData(ClipboardData(
                                     text: "https://kisa.co/$shortUrl"));
                                 // ignore: unnecessary_statements
-                                Navigator.of(context).pop;
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            AuthShortScreen()),
+                                    (Route<dynamic> route) => false);
                               },
                             ),
                           ],
