@@ -212,7 +212,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               throw 'Could not launch';
                             }
                           },
-                          text: 'Short URL: kisaco/$shortUrl',
+                          text: 'Short URL: kisa.co/$shortUrl',
                           options: LinkifyOptions(humanize: false),
                           style: TextStyle(fontSize: 14, color: Colors.black87),
                         ),

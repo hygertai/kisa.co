@@ -103,19 +103,18 @@ class UserModel extends ChangeNotifier {
             orig_url: urlData["origURL"],
             url_id: urlData["id"],
             user_id: urlData["userID"]);
-        
+
         newUrl.requests = requests;
         _generatedUrl.add(newUrl);
       }
       return true;
-    }
-    else{
+    } else {
       return false;
     }
   }
 
   Future<bool> fillUrlRequest() async {
-  var response = await getUserAnalytics(id);
+    var response = await getUserAnalytics(id);
 
     if (response[0] == 200) {
       List<dynamic> userData = response[1];
@@ -123,12 +122,11 @@ class UserModel extends ChangeNotifier {
         var analytic = userData[i]; // Map string dynamic
         //var urlData = analytic["url"]; // Url objesi(MAP)
         var requests = analytic["requests"]; //List of maps
-        
+
         _generatedUrl[i].requests = requests;
       }
       return true;
-    }
-    else{
+    } else {
       return false;
     }
   }
@@ -147,6 +145,7 @@ class UserModel extends ChangeNotifier {
     data["user_id"] = this.id;
     var response = await createAuthShortLink(data);
     var status = response[0];
+    print(response[1]);
     if (status == 200) {
       Map<String, dynamic> urlData = response[1];
       UrlData newUrl = new UrlData(

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:kisaco/components/rounded_button.dart';
 import 'package:kisaco/screens/analytics_screen.dart';
 import 'package:kisaco/screens/dashboard_screen.dart';
@@ -9,6 +10,7 @@ import '../models/user_model.dart';
 import 'constants.dart';
 import 'package:flutter_beautiful_popup/main.dart';
 import 'package:provider/provider.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 enum PrivacyChoice { public, private }
 
@@ -60,6 +62,9 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
     String origUrl = "";
     String shortUrl = "";
     int visitorLimit = 0;
+
+    final format = DateFormat("yyyy-MM-dd HH:mm");
+    DateTime value;
 
     return Scaffold(
       appBar: AppBar(
@@ -142,7 +147,7 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                   SizedBox(
                     height: 10.0,
                   ),
-                  TextField(
+                  TextFormField(
                     keyboardType: TextInputType.url,
                     textAlign: TextAlign.center,
                     onChanged: (value) {
@@ -154,7 +159,7 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                   SizedBox(
                     height: 10.0,
                   ),
-                  TextField(
+                  TextFormField(
                     keyboardType: TextInputType.number,
                     textAlign: TextAlign.center,
                     onChanged: (value) {
@@ -170,7 +175,7 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                   SizedBox(
                     height: 10.0,
                   ),
-                  TextField(
+                  TextFormField(
                     keyboardType: TextInputType.text,
                     textAlign: TextAlign.center,
                     onChanged: (value) {
@@ -182,17 +187,45 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                   SizedBox(
                     height: 10.0,
                   ),
-                  RaisedButton(
-                    color: Colors.amber,
-                    shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(18.0),
-                        side: BorderSide(color: kDarkestPurpleColor)),
-                    onPressed: () => _selectDate(context),
-                    child: Text(
-                      'Select Expiration date',
-                      style: TextStyle(color: kDarkestPurpleColor),
-                    ),
+                  Column(
+                    children: <Widget>[
+                      Text('Basic date & time field (${format.pattern})'),
+                      DateTimeField(
+                        decoration: kTextFieldDecorationLog.copyWith(
+                            hintText: 'Tap to enter date'),
+                        format: format,
+                        onShowPicker: (context, currentValue) async {
+                          final date = await showDatePicker(
+                              context: context,
+                              firstDate: DateTime(1900),
+                              initialDate: currentValue ?? DateTime.now(),
+                              lastDate: DateTime(2100));
+                          if (date != null) {
+                            final time = await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay.fromDateTime(
+                                  currentValue ?? DateTime.now()),
+                            );
+                            selectedDate = currentValue;
+                            return DateTimeField.combine(date, time);
+                          } else {
+                            return currentValue;
+                          }
+                        },
+                      ),
+                    ],
                   ),
+//                  RaisedButton(
+//                    color: Colors.amber,
+//                    shape: new RoundedRectangleBorder(
+//                        borderRadius: new BorderRadius.circular(18.0),
+//                        side: BorderSide(color: kDarkestPurpleColor)),
+//                    onPressed: () => _selectDate(context),
+//                    child: Text(
+//                      'Select Expiration date',
+//                      style: TextStyle(color: kDarkestPurpleColor),
+//                    ),
+//                  ),
                   RoundedButton(
                     title: 'Shorten Link',
                     colour: kLightPurpleColor,
@@ -213,9 +246,11 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                       }
 
                       data["orig_url"] = origUrl;
+                      print(origUrl);
                       data["short_url"] = shortUrl;
                       data["private_mode"] = privateMode;
                       data["visitor_limit"] = visitorLimit;
+                      print(visitorLimit);
 
                       print(DateTime.now());
                       print(data["expires_at"]);
@@ -244,8 +279,8 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                             popup.button(
                               label: "Copy Short Url",
                               onPressed: () {
-                                Clipboard.setData(
-                                    ClipboardData(text: shortUrl));
+                                Clipboard.setData(ClipboardData(
+                                    text: "https://kisa.co/$shortUrl"));
                                 // ignore: unnecessary_statements
                                 Navigator.of(context).pop;
                               },
