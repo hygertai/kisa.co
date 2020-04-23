@@ -172,7 +172,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                     Colors.blueAccent,
                     Colors.teal
                   ],
-                  title: ChartTitle(text: 'Views per IP'),
+                  title: ChartTitle(text: 'Views per Country'),
                   legend: Legend(
                     isVisible: true,
                     //alignment: ChartAlignment.near,
