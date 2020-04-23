@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'package:flutter/foundation.dart';
+import 'package:kisaco/models/request_data.dart';
 import 'package:kisaco/models/url_model.dart';
 import 'package:kisaco/util/requests.dart';
 
@@ -14,6 +15,7 @@ class UserModel extends ChangeNotifier {
 
   List<UrlData> _generatedUrl = [];
   bool isLoggedIn = false;
+  List<dynamic> countryInfo = [];
 
   UserModel({this.id, this.email, this.name});
 
@@ -81,7 +83,45 @@ class UserModel extends ChangeNotifier {
     return _generatedUrl.length;
   }
 
+void getCountryInfo(UrlData url) async {
+  print("getCountryInfo called");
+  var response = await getURLVisitorInfo(url.url_id);
+  if(response[0] == 200){
+    countryInfo = response[1];
+    print(response[1]);
+  }
+  else{
+    print(response[1]);
+  }
+}
+
+void getMonthlyDetail(UrlData url) async{
+    var response = await getURLMonthDetails(url.url_id);
+    if(response[0] == 200)
+    {
+      List<dynamic> urlMonthly = response[1]["months"];
+      url.addData(RequestData("Jan", urlMonthly[0]));
+      url.addData(RequestData("Feb", urlMonthly[1]));
+      url.addData(RequestData("March", urlMonthly[2]));
+      url.addData(RequestData("Apr", urlMonthly[3]));
+      url.addData(RequestData("May", urlMonthly[4]));
+      // url.addData(MonthlyData("June", urlMonthly[5]));
+      // url.addData(MonthlyData("July", urlMonthly[6]));
+      // url.addData(MonthlyData("Aug", urlMonthly[7]));
+      // url.addData(MonthlyData("Sep", urlMonthly[8]));
+      // url.addData(MonthlyData("Oct", urlMonthly[9]));
+      // url.addData(MonthlyData("Nov", urlMonthly[10]));
+      // url.addData(MonthlyData("Dec", urlMonthly[11]));
+      
+      print(response[1]);
+    }
+    else{
+      print(response[1]);
+    }
+  }
+
   Future<bool> getAnalytics() async {
+    print("get analytics called");
     var response = await getUserAnalytics(id);
 
     if (response[0] == 200) {
@@ -106,6 +146,7 @@ class UserModel extends ChangeNotifier {
 
         newUrl.requests = requests;
         _generatedUrl.add(newUrl);
+        getMonthlyDetail(_generatedUrl[i]);
       }
       return true;
     } else {

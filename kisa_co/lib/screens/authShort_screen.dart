@@ -230,6 +230,7 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                     title: 'Shorten Link',
                     colour: kLightPurpleColor,
                     onPressed: () async {
+                      Provider.of<UserModel>(context, listen: false).getAnalytics();
                       var data = Map<String, dynamic>();
                       int privateMode = 0;
                       print(privChoice);

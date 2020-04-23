@@ -1,3 +1,6 @@
+import 'package:kisaco/models/request_data.dart';
+import 'package:kisaco/util/requests.dart';
+
 class UrlData {
   int url_id;
   int user_id;
@@ -10,6 +13,8 @@ class UrlData {
   int visitor_limit;
   bool is_private;
   List<dynamic> requests = [];
+  List<RequestData> monthlyClicks = [];
+  
 
   UrlData(
       {this.visitor_count,
@@ -34,5 +39,9 @@ class UrlData {
       visitor_count: json['visitor_count'],
     );
     return newModel;
+  }
+
+  void addData(RequestData newData){
+    monthlyClicks.add(newData);
   }
 }

@@ -110,93 +110,75 @@ Future<List<dynamic>> getUserAnalytics(int userId) async {
   }
 }
 
-Future<List<dynamic>> getUserUrls() async {
-  List<dynamic> response = await sendRequest('urls/', {}, 'GET');
-  Map<String, dynamic> result = response[1];
-  print(result);
+// Future<List<dynamic>> getUserUrls() async {
+//   List<dynamic> response = await sendRequest('urls/', {}, 'GET');
+//   Map<String, dynamic> result = response[1];
+//   print(result);
 
-  if (response[0] != 200) {
-    return [response[0], result['message']];
-  } else {
-    //List<ListModel> lists = [];
-    List<dynamic> returnLists = result['data']['urls'];
+//   if (response[0] != 200) {
+//     return [response[0], result['message']];
+//   } else {
+//     List<dynamic> returnLists = result['data']['urls'];
 
-    for (var i = 0; i < returnLists.length; i++) {
-      //lists.add(ListModel.fromJson(returnLists[i]));
-    }
-    //return [response[0], result['message'], lists];
-  }
-}
+//     for (var i = 0; i < returnLists.length; i++) {
+//     }
+//     //return [response[0], result['message'], lists];
+//   }
+// }
 
-Future<List<dynamic>> getUrlDetails() async {
-  List<dynamic> response = await sendRequest('url', {}, 'GET');
-  Map<String, dynamic> result = response[1];
+// Future<List<dynamic>> getUrlDetails() async {
+//   List<dynamic> response = await sendRequest('url', {}, 'GET');
+//   Map<String, dynamic> result = response[1];
 
-  if (response[0] != 200) {
-    return [response[0], result['message']];
-  } else {
-    Map<String, dynamic> returnItems = result['data'];
-    return [response[0], result['message'], returnItems];
-  }
-}
+//   if (response[0] != 200) {
+//     return [response[0], result['message']];
+//   } else {
+//     Map<String, dynamic> returnItems = result['data'];
+//     return [response[0], result['message'], returnItems];
+//   }
+// }
 
-Future<List<dynamic>> createNewUrl(Map<String, dynamic> data) async {
-  List<dynamic> response = await sendRequest('item', data, 'POST');
-  return [response[0], response[1]];
-}
+// Future<List<dynamic>> createNewUrl(Map<String, dynamic> data) async {
+//   List<dynamic> response = await sendRequest('item', data, 'POST');
+//   return [response[0], response[1]];
+// }
 
-void updateCookie(http.Response response) {
-  String rawCookie = response.headers['set-cookie'];
-  if (rawCookie != null) {
-    int index = rawCookie.indexOf(';');
-    headers['cookie'] =
-        (index == -1) ? rawCookie : rawCookie.substring(0, index);
-  }
-}
+// void updateCookie(http.Response response) {
+//   String rawCookie = response.headers['set-cookie'];
+//   if (rawCookie != null) {
+//     int index = rawCookie.indexOf(';');
+//     headers['cookie'] =
+//         (index == -1) ? rawCookie : rawCookie.substring(0, index);
+//   }
+// }
 
 void logoutUser() async {
   await sendRequest('/users/logout', {}, 'GET');
 }
 
-Future<List<dynamic>> deleteUrl(int urlId) async {
-  List<dynamic> response = await sendRequest('urls/$urlId', {}, 'DELETE');
-  return [response[0], response[1]];
+// Future<List<dynamic>> deleteUrl(int urlId) async {
+//   List<dynamic> response = await sendRequest('urls/$urlId', {}, 'DELETE');
+//   return [response[0], response[1]];
+// }
+
+Future<List<dynamic>> getURLMonthDetails(int urlID) async{
+  List<dynamic> response =  await sendRequest('/analytics/monthly/$urlID', {}, 'GET');
+  if(response[0] == 200){
+    Map<String,dynamic> result = response[1];
+    return [response[0], result]; //Return error message from API.
+  }
+  else{
+    return [response[0], response[1]];
+  }
 }
 
-
-// Future<List<UrlData>> fillUserLists() async {
-//   // Get user lists for dashboard view
-//   var listResponse = await getUserUrls();
-//   if (listResponse[0] != 200) {
-//     return [];
-//   }
-
-//   var lists = listResponse[2];
-
-//   // Get all items of a user as a hashmap, key: list_id
-//   var itemResponse = await getUserUrls();
-//   if (itemResponse[0] != 200) {
-//     return [];
-//   }
-
-//   var items = itemResponse[2];
-
-//   for (var i = 0; i < lists.length; i++) {
-//     var responseItems =
-//         items[(lists[i].id).toString()]; // Get respective list items
-//     List<UrlData> listItems = [];
-
-//     // convert dynamic list to Notive ItemModel list
-//     if (responseItems != null) {
-//       for (var i = 0; i < responseItems.length; i++) {
-//         UrlData itemToAdd = UrlData.fromJson(responseItems[i]);
-// //        String query = itemToAdd.name;
-// //        itemToAdd.setItemData(query);
-//         listItems.add(itemToAdd);
-//       }
-//     }
-//     // set items of the list
-//     lists[i].setItems(listItems);
-//   }
-//   return lists;
-// }
+Future<List<dynamic>> getURLVisitorInfo(int urlID) async{
+  List<dynamic> response = await sendRequest('/analytics/visitors/$urlID', {}, 'GET');
+  if(response[0] == 200){
+    List<dynamic> result = response[1];
+    return [response[0], result];
+  }
+  else{
+    return [response[0], response[1]];
+  }
+}

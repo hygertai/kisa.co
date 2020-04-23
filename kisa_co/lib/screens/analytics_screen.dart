@@ -8,6 +8,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:kisaco/models/url_model.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
+import 'package:kisaco/models/request_data.dart';
 
 class AnalyticsScreen extends StatefulWidget {
   static const String id = 'analytics_screen';
@@ -27,7 +28,13 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
   Widget build(BuildContext context) {
     return Consumer<UserModel>(
       builder: (context, user, child) {
-        var currentUrl = user.generatedUrl[0];
+        UrlData currentUrl = user.generatedUrl[0];
+        user.getMonthlyDetail(currentUrl);
+        user.getCountryInfo(currentUrl);
+        List<dynamic> countryInfo = user.countryInfo;
+        print("a");
+        print(countryInfo);
+
         String origUrl = currentUrl.orig_url;
         String shortUrl = currentUrl.short_url;
         String visitorCount = currentUrl.visitor_count.toString();
@@ -114,18 +121,11 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                           canShowMarker: false,
                           format: 'point.x : point.y sq.km',
                           header: ''),
-                      series: <ChartSeries<UrlData, String>>[
-                        LineSeries<UrlData, String>(
-                            // dataSource: <UrlData>[
-                            //   UrlData(url_id: 1, month: 'Jan', visitor_count: 35),
-                            //   UrlData(url_id: 1, month: 'Feb', visitor_count: 28),
-                            //   UrlData(url_id: 1, month: 'Mar', visitor_count: 34),
-                            //   UrlData(url_id: 1, month: 'Apr', visitor_count: 32),
-                            //   UrlData(url_id: 1, month: 'May', visitor_count: 40)
-                            // ],
-                            // xValueMapper: (UrlData sales, _) => sales.month,
-                            // yValueMapper: (UrlData sales, _) => sales.visitor_count,
-                            // Enable data label
+                      series: <ChartSeries<RequestData, String>>[
+                        LineSeries<RequestData, String>(
+                            dataSource: currentUrl.monthlyClicks,
+                            xValueMapper: (RequestData data, _) => data.month,
+                            yValueMapper: (RequestData data, _) => data.visitor,
                             dataLabelSettings:
                                 DataLabelSettings(isVisible: true))
                       ]),
@@ -172,7 +172,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                     Colors.blueAccent,
                     Colors.teal
                   ],
-                  title: ChartTitle(text: 'Views per Country'),
+                  title: ChartTitle(text: 'Views per IP'),
                   legend: Legend(
                     isVisible: true,
                     //alignment: ChartAlignment.near,
@@ -198,32 +198,13 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                 ),
               ),
               Container(
-                child: DataTable(
-                  columns: [
-                    DataColumn(
-                      label: Text("IP"),
-                      numeric: false,
-                    ),
-                    DataColumn(
-                      label: Text("Country"),
-                      numeric: false,
-                    ),
-                  ],
-                  rows: [
-                    DataRow(
-                      cells: [
-                        DataCell(Text('192.168.1.1')),
-                        DataCell(Text('TR')),
-                      ],
-                    ),
-                    DataRow(
-                      cells: [
-                        DataCell(Text('192.111.1.1')),
-                        DataCell(Text('AL')),
-                      ],
-                    ),
-                  ],
+                child: Column(
+                    children: List.generate(countryInfo.length, (index){
+                      return new ListTile(title: Text(countryInfo[index][1]),
+                      subtitle: Text(countryInfo[index][0]),
+                      );}
                 ),
+                  )
               ),
             ],
           ),
