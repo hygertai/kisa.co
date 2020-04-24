@@ -198,14 +198,42 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                 ),
               ),
               Container(
-                child: Column(
-                    children: List.generate(countryInfo.length, (index){
-                      return new ListTile(title: Text(countryInfo[index][1]),
-                      subtitle: Text(countryInfo[index][0]),
-                      );}
+                child: DataTable(
+                  columns: [
+                    DataColumn(
+                      label: Text("IP"),
+                      numeric: false,
+                    ),
+                    DataColumn(
+                      label: Text("Country"),
+                      numeric: false,
+                    ),
+                  ],
+                  rows: [
+                    DataRow(
+                      cells: [
+                        DataCell(Text('192.168.1.1')),
+                        DataCell(Text('TR')),
+                      ],
+                    ),
+                    DataRow(
+                      cells: [
+                        DataCell(Text('192.111.1.1')),
+                        DataCell(Text('AL')),
+                      ],
+                    ),
+                  ],
                 ),
-                  )
               ),
+              Container(
+                  child: Column(
+                children: List.generate(countryInfo.length, (index) {
+                  return new ListTile(
+                    title: Text(countryInfo[index][1]),
+                    subtitle: Text(countryInfo[index][0]),
+                  );
+                }),
+              )),
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(

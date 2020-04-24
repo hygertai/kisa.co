@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kisaco/models/user_model.dart';
+import 'package:kisaco/screens/authShort_screen.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:kisaco/components/rounded_button.dart';
 import 'package:kisaco/models/user_model.dart';
@@ -153,15 +154,16 @@ class _SignupScreenState extends State<SignupScreen> {
                         });
 
                         var data = Map<String, dynamic>();
-                        data["name"]=username;
+                        data["name"] = username;
                         data["email"] = email;
                         data["password"] = password;
-                        
-                        var result = await Provider.of<UserModel>(context, listen: false)
-                            .signUp(data);
+
+                        var result =
+                            await Provider.of<UserModel>(context, listen: false)
+                                .signUp(data);
 
                         if (result == true) {
-                          Navigator.pushNamed(context, DashboardScreen.id);
+                          Navigator.pushNamed(context, AuthShortScreen.id);
                         } else {
                           errorAlert(context);
                         }

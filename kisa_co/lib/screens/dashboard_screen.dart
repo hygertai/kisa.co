@@ -155,20 +155,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ],
             ),
             Container(
-              height: 80,
-              margin: EdgeInsets.only(top: 0),
-              child: RoundedButton(
-                title: 'Log Out',
-                colour: kLightPurpleColor,
-                onPressed: () {
-                  Provider.of<UserModel>(context, listen: false).logout();
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => WelcomeScreen()),
-                      (Route<dynamic> route) => false);
-                },
-              ),
-            ),
-            Container(
               //height: _allArea.length > 3 ? 150.0 : _allArea.length * 50.0,
               margin: EdgeInsets.all(20.0),
               decoration: new BoxDecoration(
@@ -181,6 +167,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               child: new ListView.builder(
                 shrinkWrap: true,
+                reverse: true,
                 padding: EdgeInsets.all(6),
                 itemCount: _data.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -236,6 +223,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ],
                     ),
                   );
+                },
+              ),
+            ),
+            Container(
+              height: 80,
+              margin: EdgeInsets.only(top: 0),
+              child: RoundedButton(
+                title: 'Log Out',
+                colour: kLightPurpleColor,
+                onPressed: () {
+                  Provider.of<UserModel>(context, listen: false).logout();
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => WelcomeScreen()),
+                      (Route<dynamic> route) => false);
                 },
               ),
             ),

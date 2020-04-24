@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kisaco/components/rounded_button.dart';
 import 'package:kisaco/models/user_model.dart';
+import 'package:kisaco/screens/authShort_screen.dart';
 import 'package:kisaco/screens/welcome_screen.dart';
 import 'constants.dart';
 import 'package:flutter_beautiful_popup/main.dart';
@@ -115,7 +116,8 @@ class _DirectShortScreenState extends State<DirectShortScreen> {
                                 Clipboard.setData(
                                     ClipboardData(text: shortUrl));
                                 // ignore: unnecessary_statements
-                                Navigator.of(context).pop;
+                                Navigator.pushNamed(
+                                    context, DirectShortScreen.id);
                               },
                             ),
                           ],
