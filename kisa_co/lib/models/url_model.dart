@@ -1,5 +1,4 @@
 import 'package:kisaco/models/request_data.dart';
-import 'package:kisaco/util/requests.dart';
 
 class UrlData {
   int url_id;
@@ -14,7 +13,8 @@ class UrlData {
   bool is_private;
   List<dynamic> requests = [];
   List<RequestData> monthlyClicks = [];
-  
+//  List<RequestData> countryIp = [];
+//  List<String> countries = [];
 
   UrlData(
       {this.visitor_count,
@@ -41,7 +41,8 @@ class UrlData {
     return newModel;
   }
 
-  void addData(RequestData newData){
+  void addData(RequestData newData) {
     monthlyClicks.add(newData);
+    //countryIp.add(newData);
   }
 }

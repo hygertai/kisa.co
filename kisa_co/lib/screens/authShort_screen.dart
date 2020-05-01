@@ -230,7 +230,8 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                     title: 'Shorten Link',
                     colour: kLightPurpleColor,
                     onPressed: () async {
-                      Provider.of<UserModel>(context, listen: false).getAnalytics();
+                      Provider.of<UserModel>(context, listen: false)
+                          .getAnalytics();
                       var data = Map<String, dynamic>();
                       int privateMode = 0;
                       print(privChoice);
@@ -281,7 +282,7 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                               label: "Copy Short Url",
                               onPressed: () {
                                 Clipboard.setData(ClipboardData(
-                                    text: "https://kisa.co/$shortUrl"));
+                                    text: "139.59.155.177:8080/$shortUrl"));
                                 // ignore: unnecessary_statements
                                 Navigator.of(context).pushAndRemoveUntil(
                                     MaterialPageRoute(

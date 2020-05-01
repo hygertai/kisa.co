@@ -36,8 +36,10 @@ dependencies:
   syncfusion_flutter_charts: ^18.1.44
   url_launcher: ^5.4.2
   flutter_linkify: ^3.1.0
+  link: ^1.0.0
   datetime_picker_formfield: ^1.0.0
   flutter_circular_chart: ^0.1.0
+  pie_chart: ^3.1.1
 
 dev_dependencies:
   flutter_test:

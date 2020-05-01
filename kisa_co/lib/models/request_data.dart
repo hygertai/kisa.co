@@ -1,7 +1,8 @@
-class RequestData{
-        RequestData(this.month, this.visitor);
-        final String month;
-        final int visitor;
-        // String country;
-        // String ip;
-    }
+class RequestData {
+  RequestData({this.month, this.ip, this.country, this.visitorCount});
+  String month;
+
+  String country;
+  String ip;
+  int visitorCount;
+}

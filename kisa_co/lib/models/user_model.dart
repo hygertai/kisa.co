@@ -83,42 +83,52 @@ class UserModel extends ChangeNotifier {
     return _generatedUrl.length;
   }
 
-void getCountryInfo(UrlData url) async {
-  print("getCountryInfo called");
-  var response = await getURLVisitorInfo(url.url_id);
-  if(response[0] == 200){
-    countryInfo = response[1];
-    print(response[1]);
+  void getCountryInfo(UrlData url) async {
+    print("getCountryInfo called");
+    var response = await getURLVisitorInfo(url.url_id);
+    if (response[0] == 200) {
+      countryInfo = response[1];
+      print(response[1]);
+    } else {
+      print(response[1]);
+    }
   }
-  else{
-    print(response[1]);
-  }
-}
 
-void getMonthlyDetail(UrlData url) async{
+  void getMonthlyDetail(UrlData url) async {
     var response = await getURLMonthDetails(url.url_id);
-    if(response[0] == 200)
-    {
+    if (response[0] == 200) {
       List<dynamic> urlMonthly = response[1]["months"];
-      url.addData(RequestData("Jan", urlMonthly[0]));
-      url.addData(RequestData("Feb", urlMonthly[1]));
-      url.addData(RequestData("March", urlMonthly[2]));
-      url.addData(RequestData("Apr", urlMonthly[3]));
-      url.addData(RequestData("May", urlMonthly[4]));
-      // url.addData(MonthlyData("June", urlMonthly[5]));
-      // url.addData(MonthlyData("July", urlMonthly[6]));
-      // url.addData(MonthlyData("Aug", urlMonthly[7]));
-      // url.addData(MonthlyData("Sep", urlMonthly[8]));
-      // url.addData(MonthlyData("Oct", urlMonthly[9]));
-      // url.addData(MonthlyData("Nov", urlMonthly[10]));
-      // url.addData(MonthlyData("Dec", urlMonthly[11]));
-      
+      url.addData(RequestData(month: "Jan", visitorCount: urlMonthly[0]));
+      url.addData(RequestData(month: "Feb", visitorCount: urlMonthly[1]));
+      url.addData(RequestData(month: "March", visitorCount: urlMonthly[2]));
+      url.addData(RequestData(month: "Apr", visitorCount: urlMonthly[3]));
+      url.addData(RequestData(month: "May", visitorCount: urlMonthly[4]));
+      url.addData(RequestData(month: "June", visitorCount: urlMonthly[5]));
+      url.addData(RequestData(month: "July", visitorCount: urlMonthly[6]));
+      url.addData(RequestData(month: "Aug", visitorCount: urlMonthly[7]));
+      url.addData(RequestData(month: "Sep", visitorCount: urlMonthly[8]));
+      url.addData(RequestData(month: "Oct", visitorCount: urlMonthly[9]));
+      url.addData(RequestData(month: "Nov", visitorCount: urlMonthly[10]));
+      url.addData(RequestData(month: "Dec", visitorCount: urlMonthly[11]));
+
       print(response[1]);
-    }
-    else{
+    } else {
       print(response[1]);
     }
   }
+
+//  Future<List<String>> getGraphicalData(
+//      UrlData url, List<dynamic> countriesList) async {
+//    print("get graphicalData called");
+//    var response = await getURLVisitorInfo(url.url_id);
+//
+//    if (response[0] == 200) {
+//      List<dynamic> urlCountryIp = response[1];
+//      url.addData(RequestData(ip: urlCountryIp[0], country: urlCountryIp[1]));
+//      countriesList.add(urlCountryIp[1]);
+//    }
+//    return countriesList;
+//  }
 
   Future<bool> getAnalytics() async {
     print("get analytics called");

@@ -9,33 +9,55 @@ import 'package:kisaco/models/url_model.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:kisaco/models/request_data.dart';
+import 'package:pie_chart/pie_chart.dart';
 
 class AnalyticsScreen extends StatefulWidget {
   static const String id = 'analytics_screen';
+  final int urlId;
+
+  AnalyticsScreen({
+    this.urlId,
+  });
 
   @override
   _AnalyticsScreenState createState() => _AnalyticsScreenState();
 }
 
 class _AnalyticsScreenState extends State<AnalyticsScreen> {
-  final GlobalKey<AnimatedCircularChartState> _chartKey =
-      new GlobalKey<AnimatedCircularChartState>();
-
   UrlData urlData;
   Color color;
+  List<String> data = new List();
+  Map<String, double> dataMap = new Map();
+
+//  Map<String, double> getDataMapped(List<String> countries) {
+//    Map<String, double> dataMap = new Map();
+//
+//    Future.forEach(countries, (country) {
+//      if (!dataMap.containsKey(country)) {
+//        dataMap[country] = 1;
+//      } else {
+//        dataMap[country] += 1;
+//      }
+//    });
+//    print(dataMap);
+//    return dataMap;
+//  }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<UserModel>(
       builder: (context, user, child) {
-        UrlData currentUrl = user.generatedUrl[0];
+        UrlData currentUrl = user.generatedUrl[user.generatedUrl.length - 1];
         user.getMonthlyDetail(currentUrl);
         user.getCountryInfo(currentUrl);
         List<dynamic> countryInfo = user.countryInfo;
         print("a");
         print(countryInfo);
 
+        //dataMap = getDataMapped(countryInfo);
+
         String origUrl = currentUrl.orig_url;
+        String privacy = currentUrl.is_private.toString();
         String shortUrl = currentUrl.short_url;
         String visitorCount = currentUrl.visitor_count.toString();
         var createdAt = new DateTime.fromMillisecondsSinceEpoch(
@@ -49,48 +71,67 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
             shrinkWrap: true,
             children: <Widget>[
               Container(
+                decoration: BoxDecoration(
+                  color: kLightPurpleColor,
+                  border: Border.all(
+                    color: Color(0xff462f3f),
+                  ),
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 20,
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 20.0, horizontal: 15.0),
+                  child: Container(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "URL Info",
+                            style: TextStyle(
+                                fontSize: 25.0, fontWeight: FontWeight.bold),
+                          ),
+//                          SizedBox(
+//                            height: 20,
+//                          ),
+                          Text(
+                            'Private: $privacy',
+                            style: TextStyle(
+                                fontSize: 16.0, fontWeight: FontWeight.w500),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            "Shortened URL: " + "kisa.co/" + shortUrl,
+                            style: TextStyle(
+                                fontSize: 16.0, fontWeight: FontWeight.w500),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            "Created at: " + createdAtDate,
+                            style: TextStyle(
+                                fontSize: 16.0, fontWeight: FontWeight.w500),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            "Total view: " + visitorCount,
+                            style: TextStyle(
+                                fontSize: 16.0, fontWeight: FontWeight.w500),
+                          ),
+                        ],
                       ),
-                      Text(
-                        "Original URL: " + origUrl,
-                        style: TextStyle(
-                            fontSize: 16.0, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        "Shortened URL: " + "kisa.co/" + shortUrl,
-                        style: TextStyle(
-                            fontSize: 16.0, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        "Created at: " + createdAtDate,
-                        style: TextStyle(
-                            fontSize: 16.0, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        "Total view: " + visitorCount,
-                        style: TextStyle(
-                            fontSize: 16.0, fontWeight: FontWeight.bold),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 10.0),
+                padding: const EdgeInsets.only(top: 10.0, bottom: 15.0),
                 child: Container(
                   decoration: BoxDecoration(
                     //color: kLightPurpleColor,
@@ -99,13 +140,13 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                         ),
                     borderRadius: BorderRadius.circular(20.0),
                   ),
-                  margin: const EdgeInsets.all(20.0),
+                  margin: const EdgeInsets.all(15.0),
                   child: SfCartesianChart(
                       plotAreaBorderWidth: 0,
                       primaryXAxis: CategoryAxis(
                         //labelStyle: ChartTextStyle(color: kOffWhiteColor),
                         axisLine: AxisLine(width: 0),
-                        labelPosition: ChartDataLabelPosition.inside,
+                        labelPosition: ChartDataLabelPosition.outside,
                         majorTickLines: MajorTickLines(width: 0),
                         majorGridLines: MajorGridLines(width: 0),
                       ),
@@ -119,121 +160,89 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                       tooltipBehavior: TooltipBehavior(
                           enable: true,
                           canShowMarker: false,
-                          format: 'point.x : point.y sq.km',
+                          format: 'point.x : point.y views',
                           header: ''),
                       series: <ChartSeries<RequestData, String>>[
                         LineSeries<RequestData, String>(
                             dataSource: currentUrl.monthlyClicks,
                             xValueMapper: (RequestData data, _) => data.month,
-                            yValueMapper: (RequestData data, _) => data.visitor,
+                            yValueMapper: (RequestData data, _) =>
+                                data.visitorCount,
                             dataLabelSettings:
-                                DataLabelSettings(isVisible: true))
+                                DataLabelSettings(isVisible: false))
                       ]),
                 ),
               ),
               Container(
-                height: 250.0,
-//              child: AnimatedCircularChart(
-//                key: _chartKey,
-//                size: const Size(200.0, 200.0),
-//                initialChartData: <CircularStackEntry>[
-//                  new CircularStackEntry(
-//                    <CircularSegmentEntry>[
-//                      new CircularSegmentEntry(
-//                        33.33,
-//                        Colors.blue[400],
-//                        rankKey: 'completed',
-//                      ),
-//                      new CircularSegmentEntry(
-//                        66.67,
-//                        Colors.blueGrey[600],
-//                        rankKey: 'remaining',
-//                      ),
-////                              new CircularSegmentEntry(
-////                                66.67,
-////                                Colors.red[600],
-////                                rankKey: 'remaining',
-////                              ),
-//                    ],
-//                    rankKey: 'progress',
+                alignment: Alignment.center,
+                child: Text(
+                  "Visitors' Info",
+                  style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: List.generate(countryInfo.length, (index) {
+                    return new ListTile(
+                      leading: Text(
+                        '$index',
+                        style: TextStyle(
+                            fontSize: 16.0, fontWeight: FontWeight.bold),
+                      ),
+                      title: Text(countryInfo[index][1]),
+                      trailing: Text(countryInfo[index][0]),
+                    );
+                  }),
+                ),
+              )),
+//              Container(
+//                height: 250.0,
+//                child: SfCircularChart(
+//                  palette: <Color>[
+//                    Colors.amber,
+//                    Colors.brown,
+//                    Colors.green,
+//                    Colors.redAccent,
+//                    Colors.blueAccent,
+//                    Colors.teal
+//                  ],
+//                  title: ChartTitle(text: 'Views per Country'),
+//                  legend: Legend(
+//                    isVisible: true,
+//                    //alignment: ChartAlignment.near,
+//                    overflowMode: LegendItemOverflowMode.wrap,
+//                    position: LegendPosition.bottom,
 //                  ),
-//                ],
-//                chartType: CircularChartType.Radial,
-//                edgeStyle: SegmentEdgeStyle.round,
-//                percentageValues: true,
+//                  series: <CircularSeries<RequestData, dynamic>>[
+//                    // Render pie chart
+//                    DoughnutSeries<RequestData, String>(
+//                      dataLabelSettings: DataLabelSettings(isVisible: true),
+//                      dataSource: currentUrl.countryIp,
+////                      dataSource: <RequestData>[
+////                        RequestData(country: 'TR', visitorCount: 35),
+////                        RequestData(country: 'AL', visitorCount: 28),
+////                      ],
+////                    pointColorMapper: (UrlData data, _) => Colors.white,
+//                      xValueMapper: (RequestData data, _) => data.ip,
+//                      yValueMapper: (RequestData data, _) => data.visitorCount,
+//                      //explode: true,
+//                      // First segment will be exploded on initial rendering
+//                      //explodeIndex: 1,
+//                    ),
+//                  ],
+//                ),
+//              ),
+//              Container(
+//                child: PieChart(
+//                  dataMap: dataMap,
+//                ),
 //              ),
 
-                child: SfCircularChart(
-                  palette: <Color>[
-                    Colors.amber,
-                    Colors.brown,
-                    Colors.green,
-                    Colors.redAccent,
-                    Colors.blueAccent,
-                    Colors.teal
-                  ],
-                  title: ChartTitle(text: 'Views per IP'),
-                  legend: Legend(
-                    isVisible: true,
-                    //alignment: ChartAlignment.near,
-                    overflowMode: LegendItemOverflowMode.wrap,
-                    position: LegendPosition.bottom,
-                  ),
-                  series: <CircularSeries<UrlData, dynamic>>[
-                    // Render pie chart
-                    DoughnutSeries<UrlData, String>(
-                      dataLabelSettings: DataLabelSettings(isVisible: true),
-                      dataSource: <UrlData>[
-                        UrlData(creator_ip: 'TR', visitor_count: 35),
-                        UrlData(creator_ip: 'AL', visitor_count: 28),
-                      ],
-//                    pointColorMapper: (UrlData data, _) => Colors.white,
-                      xValueMapper: (UrlData data, _) => data.creator_ip,
-                      yValueMapper: (UrlData data, _) => data.visitor_count,
-                      //explode: true,
-                      // First segment will be exploded on initial rendering
-                      //explodeIndex: 1,
-                    ),
-                  ],
-                ),
+              SizedBox(
+                height: 25.0,
               ),
-              Container(
-                child: DataTable(
-                  columns: [
-                    DataColumn(
-                      label: Text("IP"),
-                      numeric: false,
-                    ),
-                    DataColumn(
-                      label: Text("Country"),
-                      numeric: false,
-                    ),
-                  ],
-                  rows: [
-                    DataRow(
-                      cells: [
-                        DataCell(Text('192.168.1.1')),
-                        DataCell(Text('TR')),
-                      ],
-                    ),
-                    DataRow(
-                      cells: [
-                        DataCell(Text('192.111.1.1')),
-                        DataCell(Text('AL')),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                  child: Column(
-                children: List.generate(countryInfo.length, (index) {
-                  return new ListTile(
-                    title: Text(countryInfo[index][1]),
-                    subtitle: Text(countryInfo[index][0]),
-                  );
-                }),
-              )),
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(

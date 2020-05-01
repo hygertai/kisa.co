@@ -113,8 +113,8 @@ class _DirectShortScreenState extends State<DirectShortScreen> {
                             popup.button(
                               label: "Copy Short Url",
                               onPressed: () {
-                                Clipboard.setData(
-                                    ClipboardData(text: shortUrl));
+                                Clipboard.setData(ClipboardData(
+                                    text: "139.59.155.177:8080/$shortUrl"));
                                 // ignore: unnecessary_statements
                                 Navigator.pushNamed(
                                     context, DirectShortScreen.id);

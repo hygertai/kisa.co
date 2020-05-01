@@ -11,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:provider/provider.dart';
 import 'package:kisaco/components/rounded_button.dart';
+import 'package:link/link.dart';
 
 class DashboardScreen extends StatefulWidget {
   static const String id = 'dashboard_screen';
@@ -36,6 +37,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
 
     int userTotalViews = totalViews(_data);
+
+    void _showErrorSnackBar() {
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Oops... the URL couldn\'t be opened!'),
+        ),
+      );
+    }
+
+    void openUrlAnalytics(int urlId) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => AnalyticsScreen(
+                  urlId: urlId,
+                )),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -168,7 +187,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: new ListView.builder(
                 shrinkWrap: true,
                 reverse: true,
-                padding: EdgeInsets.all(6),
+                padding: EdgeInsets.all(4),
                 itemCount: _data.length,
                 itemBuilder: (BuildContext context, int index) {
                   UrlData item = _data[index];
@@ -176,52 +195,80 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       item.created_at * 1000);
                   String origUrl = item.orig_url;
                   String shortUrl = item.short_url;
+                  String launchUrl = "139.59.155.177:8080/$shortUrl";
+                  String creationDate = date.toString().substring(0, 10);
                   return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          "Created at:",
-                          style: TextStyle(
-                            color: kDarkestPurpleColor,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 17,
-                          ),
+                    padding: const EdgeInsets.all(4.0),
+                    child: ListTile(
+                      //leading: FlutterLogo(size: 56.0),
+                      title: Text(
+                        'Created at: $creationDate',
+                        style: TextStyle(
+                          color: kDarkestPurpleColor,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 17,
                         ),
-                        Text(
-                          date.toString().substring(0, 10),
-                          style: TextStyle(
-                            color: kDarkestPurpleColor,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 17,
-                          ),
-                        ),
-                        Text(
-                          "Original URL: $origUrl",
+                      ),
+                      subtitle: Link(
+                        child: Text(
+                          'Click to launch: kisa.co/$shortUrl',
                           style: TextStyle(fontSize: 14, color: Colors.black87),
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Linkify(
-                          onOpen: (shortUrl) async {
-                            if (await canLaunch(shortUrl.url)) {
-                              await launch(shortUrl.url);
-                            } else {
-                              throw 'Could not launch';
-                            }
-                          },
-                          text: 'Short URL: kisa.co/$shortUrl',
-                          options: LinkifyOptions(humanize: false),
-                          style: TextStyle(fontSize: 14, color: Colors.black87),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                      ],
+                        url: '$origUrl',
+                        onError: _showErrorSnackBar,
+                      ),
+                      trailing: Icon(
+                        Icons.show_chart,
+                        color: kDarkestPurpleColor,
+                      ),
+                      onTap: () {
+                        openUrlAnalytics(_data[index].url_id);
+                      },
                     ),
+//                    child: Column(
+//                      mainAxisAlignment: MainAxisAlignment.start,
+//                      crossAxisAlignment: CrossAxisAlignment.start,
+//                      children: <Widget>[
+//                        Text(
+//                          "Created at:",
+//                          style: TextStyle(
+//                            color: kDarkestPurpleColor,
+//                            fontWeight: FontWeight.w700,
+//                            fontSize: 17,
+//                          ),
+//                        ),
+//                        Text(
+//                          date.toString().substring(0, 10),
+//                          style: TextStyle(
+//                            color: kDarkestPurpleColor,
+//                            fontWeight: FontWeight.w700,
+//                            fontSize: 17,
+//                          ),
+//                        ),
+//                        Text(
+//                          "Original URL: $origUrl",
+//                          style: TextStyle(fontSize: 14, color: Colors.black87),
+//                        ),
+//                        SizedBox(
+//                          height: 5,
+//                        ),
+//                        Linkify(
+//                          onOpen: (launchUrl) async {
+//                            if (await canLaunch(launchUrl.url)) {
+//                              await launch(launchUrl.url);
+//                            } else {
+//                              throw 'Could not launch';
+//                            }
+//                          },
+//                          text: '139.59.155.177:8080/$shortUrl',
+//                          options: LinkifyOptions(humanize: false),
+//                          style: TextStyle(fontSize: 14, color: Colors.black87),
+//                        ),
+//                        SizedBox(
+//                          height: 10,
+//                        ),
+//                      ],
+//                    ),
                   );
                 },
               ),
