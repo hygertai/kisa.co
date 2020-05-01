@@ -279,6 +279,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: RoundedButton(
                 title: 'Log Out',
                 colour: kLightPurpleColor,
+                fontColor: Colors.black87,
                 onPressed: () {
                   Provider.of<UserModel>(context, listen: false).logout();
                   Navigator.of(context).pushAndRemoveUntil(

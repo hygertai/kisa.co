@@ -30,7 +30,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     return Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("images/back.jpg"), fit: BoxFit.cover)),
+                image: AssetImage("images/back4.png"), fit: BoxFit.cover)),
         child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Padding(
@@ -42,30 +42,31 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     SizedBox(
-                      height: MediaQuery.of(context).size.width * 0.30,
+                      height: MediaQuery.of(context).size.height * 0.60,
                     ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Container(
-                            child: Image(image: AssetImage('images/cloud.png')),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 18.0,
-                        ),
-                      ],
+//                    Row(
+//                      children: <Widget>[
+//                        Expanded(
+//                          child: Container(
+//                            child: Image(image: AssetImage('images/logo.png')),
+//                          ),
+//                        ),
+//                        SizedBox(
+//                          width: 18.0,
+//                        ),
+//                      ],
+//                    ),
+                    SizedBox(
+                      height: 48.0,
                     ),
-//            SizedBox(
-//              height: 48.0,
-//            ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Expanded(
                           child: RoundedButton(
                             title: 'Log In',
-                            colour: kLightPinkColor,
+                            fontColor: Colors.black87,
+                            colour: Colors.deepPurple[200],
                             onPressed: () {
                               Navigator.pushNamed(context, LoginScreen.id);
                             },
@@ -77,7 +78,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                         Expanded(
                           child: RoundedButton(
                             title: 'Sign Up',
-                            colour: kPurpleColor,
+                            fontColor: Colors.black87,
+                            colour: Colors.deepPurple[200],
                             onPressed: () {
                               Navigator.pushNamed(context, SignupScreen.id);
                             },
@@ -87,18 +89,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     ),
                     RoundedButton(
                       title: 'Shorten Link - Direct',
-                      colour: kBrownColor,
+                      colour: Colors.amberAccent[700],
+                      fontColor: kDarkestPurpleColor,
                       onPressed: () {
                         Navigator.pushNamed(context, DirectShortScreen.id);
                       },
                     ),
-//                    RoundedButton(
-//                      title: 'Shorten Link - Auth',
-//                      colour: kBrownColor,
-//                      onPressed: () {
-//                        Navigator.pushNamed(context, AuthShortScreen.id);
-//                      },
-//                    ),
                   ],
                 ),
               ),

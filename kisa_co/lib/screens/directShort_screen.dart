@@ -84,7 +84,8 @@ class _DirectShortScreenState extends State<DirectShortScreen> {
                   ),
                   RoundedButton(
                     title: 'Shorten Link',
-                    colour: kLightPurpleColor,
+                    colour: Colors.yellow[800],
+                    fontColor: kDarkestPurpleColor,
                     onPressed: () async {
                       var data = Map<String, dynamic>();
                       data["user_id"] = 0;

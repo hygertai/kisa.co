@@ -229,6 +229,7 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                   RoundedButton(
                     title: 'Shorten Link',
                     colour: kLightPurpleColor,
+                    fontColor: Colors.white,
                     onPressed: () async {
                       Provider.of<UserModel>(context, listen: false)
                           .getAnalytics();

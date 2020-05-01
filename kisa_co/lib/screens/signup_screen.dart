@@ -148,6 +148,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     RoundedButton(
                       title: 'Register',
                       colour: kDarkestPurpleColor,
+                      fontColor: Colors.white,
                       onPressed: () async {
                         setState(() {
                           showSpinner = true;
