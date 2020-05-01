@@ -88,7 +88,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                       ],
                     ),
                     RoundedButton(
-                      title: 'Shorten Link - Direct',
+                      title: 'Direct URL Shortener',
                       colour: Colors.amberAccent[700],
                       fontColor: kDarkestPurpleColor,
                       onPressed: () {
