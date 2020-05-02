@@ -68,6 +68,7 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('KISA.co'),
       ),
       //TODO use ListView in case there is need for sth scrollable
@@ -326,7 +327,7 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
               case 0:
                 {
                   // Navigate to Dashboard
-                  Navigator.pushNamed(context, WelcomeScreen.id);
+                  Navigator.pushNamed(context, AuthShortScreen.id);
                 }
                 break;
               case 1:
@@ -343,7 +344,7 @@ class _AuthShortScreenState extends State<AuthShortScreen> {
                 break;
               default:
                 {
-                  Navigator.pushNamed(context, WelcomeScreen.id);
+                  Navigator.pushNamed(context, AuthShortScreen.id);
                 }
                 break;
             }

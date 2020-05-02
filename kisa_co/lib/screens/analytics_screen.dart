@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kisaco/models/user_model.dart';
+import 'package:kisaco/screens/authShort_screen.dart';
 import 'package:kisaco/screens/welcome_screen.dart';
 import 'constants.dart';
 import 'dashboard_screen.dart';
@@ -52,9 +53,57 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
         if (linksListLength == 0) {
           return Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading: false,
               title: Text('Url Analytics'),
             ),
             body: Center(child: Text('You have not generated any URL')),
+            bottomNavigationBar: BottomNavigationBar(
+              currentIndex: 0,
+              fixedColor: kLightPurpleColor,
+              items: [
+                BottomNavigationBarItem(
+                  title: Text("Home"),
+                  icon: Icon(Icons.home),
+                ),
+                BottomNavigationBarItem(
+                  title: Text("Analytics"),
+                  icon: Icon(Icons.show_chart),
+                ),
+                BottomNavigationBarItem(
+                  title: Text("Profile"),
+                  icon: Icon(Icons.dashboard),
+                ),
+              ],
+              onTap: (int index) {
+                setState(() {
+                  switch (index) {
+                    case 0:
+                      {
+                        // Navigate to Dashboard
+                        Navigator.pushNamed(context, AuthShortScreen.id);
+                      }
+                      break;
+                    case 1:
+                      {
+                        // Navigate to Archived List
+                        Navigator.pushNamed(context, AnalyticsScreen.id);
+                      }
+                      break;
+                    case 2:
+                      {
+                        // Map
+                        Navigator.pushNamed(context, DashboardScreen.id);
+                      }
+                      break;
+                    default:
+                      {
+                        Navigator.pushNamed(context, AuthShortScreen.id);
+                      }
+                      break;
+                  }
+                });
+              },
+            ),
           );
         } else {
           UrlData currentUrl = user.generatedUrl[linksListLength - 1];
@@ -76,6 +125,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
           String createdAtDate = createdAt.toString().substring(0, 16);
           return Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading: false,
               title: Text('Url Analytics'),
             ),
             body: ListView(
@@ -131,7 +181,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                               height: 5,
                             ),
                             Text(
-                              "Total view: " + visitorCount,
+                              "Total view: $visitorCount",
                               style: TextStyle(
                                   fontSize: 16.0, fontWeight: FontWeight.w500),
                             ),
@@ -280,7 +330,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                     case 0:
                       {
                         // Navigate to Dashboard
-                        Navigator.pushNamed(context, WelcomeScreen.id);
+                        Navigator.pushNamed(context, AuthShortScreen.id);
                       }
                       break;
                     case 1:
@@ -297,7 +347,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                       break;
                     default:
                       {
-                        Navigator.pushNamed(context, WelcomeScreen.id);
+                        Navigator.pushNamed(context, AuthShortScreen.id);
                       }
                       break;
                   }

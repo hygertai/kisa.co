@@ -62,6 +62,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
         title: Text(
           'User Profile',
         ),
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  Provider.of<UserModel>(context, listen: false).logout();
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => WelcomeScreen()),
+                      (Route<dynamic> route) => false);
+                },
+                child: Icon(Icons.exit_to_app),
+              )),
+        ],
       ),
       body: SafeArea(
         child: ListView(

@@ -26,21 +26,16 @@ class _DirectShortScreenState extends State<DirectShortScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        //backgroundColor: Colors.black,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.black,
         title: IconButton(
           icon: Image.asset('images/logo.png'),
           onPressed: () {
-            Navigator.pushNamed(context, WelcomeScreen.id);
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => WelcomeScreen()),
+                (Route<dynamic> route) => false);
           },
         ),
-        actions: <Widget>[
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {},
-                child: Icon(Icons.more_vert),
-              )),
-        ],
       ),
       body: Container(
         //color: Colors.black54,
@@ -109,16 +104,19 @@ class _DirectShortScreenState extends State<DirectShortScreen> {
 
                         popup.show(
                           title: 'Your Short Link',
-                          content: result,
+                          content: 'kisa.co/$result',
                           actions: [
                             popup.button(
                               label: "Copy Short Url",
                               onPressed: () {
                                 Clipboard.setData(ClipboardData(
-                                    text: "139.59.155.177:8080/$shortUrl"));
+                                    text: "139.59.155.177:8080/$result"));
                                 // ignore: unnecessary_statements
-                                Navigator.pushNamed(
-                                    context, DirectShortScreen.id);
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            DirectShortScreen()),
+                                    (Route<dynamic> route) => false);
                               },
                             ),
                           ],

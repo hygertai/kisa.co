@@ -186,7 +186,7 @@ class UserModel extends ChangeNotifier {
     var response = await createShortLink(data);
     var status = response[0];
     if (status == 200) {
-      return "kisa.co/" + response[1]["shortURL"];
+      return response[1]["shortURL"];
     } else {
       return "Error";
     }
