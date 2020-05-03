@@ -2,15 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kisaco/models/user_model.dart';
 import 'package:kisaco/screens/authShort_screen.dart';
-import 'package:kisaco/screens/welcome_screen.dart';
 import 'constants.dart';
 import 'dashboard_screen.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:kisaco/models/url_model.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:kisaco/models/request_data.dart';
-import 'package:pie_chart/pie_chart.dart';
 
 class AnalyticsScreen extends StatefulWidget {
   static const String id = 'analytics_screen';

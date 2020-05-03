@@ -6,8 +6,6 @@ import 'package:kisaco/components/rounded_button.dart';
 import 'package:kisaco/screens/constants.dart';
 import 'package:provider/provider.dart';
 
-import 'dashboard_screen.dart';
-
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
   @override

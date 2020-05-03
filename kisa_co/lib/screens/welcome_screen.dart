@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kisaco/components/rounded_button.dart';
-import 'package:kisaco/screens/authShort_screen.dart';
 import 'package:kisaco/screens/constants.dart';
 import 'package:kisaco/screens/login_screen.dart';
 import 'package:kisaco/screens/signup_screen.dart';

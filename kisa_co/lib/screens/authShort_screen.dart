@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:kisaco/components/rounded_button.dart';
 import 'package:kisaco/screens/analytics_screen.dart';
 import 'package:kisaco/screens/dashboard_screen.dart';
-import 'package:kisaco/screens/welcome_screen.dart';
 import '../models/user_model.dart';
 import 'constants.dart';
 import 'package:flutter_beautiful_popup/main.dart';

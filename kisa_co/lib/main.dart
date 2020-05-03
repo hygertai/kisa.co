@@ -26,6 +26,7 @@ void main() {
 class KisaCo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    rebuildAllChildren(context);
     return MaterialApp(
       theme: ThemeData(
         brightness: Brightness.light,
@@ -46,5 +47,14 @@ class KisaCo extends StatelessWidget {
         AuthShortScreen.id: (context) => AuthShortScreen(),
       },
     );
+  }
+
+  void rebuildAllChildren(BuildContext context) {
+    void rebuild(Element el) {
+      el.markNeedsBuild();
+      el.visitChildren(rebuild);
+    }
+
+    (context as Element).visitChildren(rebuild);
   }
 }

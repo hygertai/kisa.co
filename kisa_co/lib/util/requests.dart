@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
 import 'package:http/http.dart' as http;
-import 'package:kisaco/models/url_model.dart';
 
 //String apiUrl = "http://10.0.2.2:8080/api"; //local
 String apiUrl = "http://139.59.155.177:8080/api";
@@ -12,42 +11,42 @@ Map<String, String> headers = {
   'Accept': 'application/json',
 };
 
-String getQueryString(Map params, {String prefix: '&', bool inRecursion: false}) {
-    String query = '';
-    params.forEach((key, value) {
-        if (inRecursion) {
-            key = '[$key]';
-        }
-        if (value is String || value is int || value is double || value is bool) {
-            query += '$prefix$key=$value';
-        } else if (value is List || value is Map) {
-            if (value is List) value = value.asMap();
-            value.forEach((k, v) {
-                query += getQueryString({k: v}, prefix: '$prefix$key', inRecursion: true);
-            });
-        }
-   });
-   return query.substring(1);
+String getQueryString(Map params,
+    {String prefix: '&', bool inRecursion: false}) {
+  String query = '';
+  params.forEach((key, value) {
+    if (inRecursion) {
+      key = '[$key]';
+    }
+    if (value is String || value is int || value is double || value is bool) {
+      query += '$prefix$key=$value';
+    } else if (value is List || value is Map) {
+      if (value is List) value = value.asMap();
+      value.forEach((k, v) {
+        query +=
+            getQueryString({k: v}, prefix: '$prefix$key', inRecursion: true);
+      });
+    }
+  });
+  return query.substring(1);
 }
 
-Future<List<dynamic>> sendRequest(String url, Map<String, dynamic> reqBody, String method) async {
+Future<List<dynamic>> sendRequest(
+    String url, Map<String, dynamic> reqBody, String method) async {
   //POST: fixed
   if (method == "POST") {
     String params = getQueryString(reqBody);
     final response = await http.post(apiUrl + url + '?' + params);
     final responseJson = json.decode(response.body);
     return [response.statusCode, responseJson];
-
   } else if (method == "GET") {
     final response = await http.get(apiUrl + url);
     final responseJson = json.decode(response.body);
     return [response.statusCode, responseJson];
-
   } else if (method == "DELETE") {
     final response = await http.delete(apiUrl + url);
     //final responseJson = json.decode(response.body);
     return [response.statusCode];
-
   } else if (method == "PUT") {
     final response = await http.put(apiUrl + url);
     //final responseJson = json.decode(response.body);
@@ -59,7 +58,7 @@ Future<List<dynamic>> sendRequest(String url, Map<String, dynamic> reqBody, Stri
 
 Future<List<dynamic>> signUpUser(Map<String, dynamic> data) async {
   List<dynamic> response = await sendRequest('/users/signup', data, 'POST');
-  return [response[0], response[1]]; //status code / user id 
+  return [response[0], response[1]]; //status code / user id
 }
 
 Future<List<dynamic>> loginUser(Map<String, dynamic> data) async {
@@ -90,22 +89,20 @@ Future<List<dynamic>> createShortLink(Map<String, dynamic> data) async {
 
 Future<List<dynamic>> createAuthShortLink(Map<String, dynamic> data) async {
   List<dynamic> response = await sendRequest('/urls/create', data, 'POST');
-  if(response[0]==200){
+  if (response[0] == 200) {
     Map<String, dynamic> result = response[1];
     return [response[0], result]; //Return error message from API.
-  }
-  else{
+  } else {
     return [response[0], response[1]];
   }
 }
 
 Future<List<dynamic>> getUserAnalytics(int userId) async {
   List<dynamic> response = await sendRequest('/analytics/$userId', {}, 'GET');
-  if(response[0]==200){
+  if (response[0] == 200) {
     List<dynamic> result = response[1];
     return [response[0], result]; //Return error message from API.
-  }
-  else{
+  } else {
     return [response[0], response[1]];
   }
 }
@@ -161,24 +158,24 @@ void logoutUser() async {
 //   return [response[0], response[1]];
 // }
 
-Future<List<dynamic>> getURLMonthDetails(int urlID) async{
-  List<dynamic> response =  await sendRequest('/analytics/monthly/$urlID', {}, 'GET');
-  if(response[0] == 200){
-    Map<String,dynamic> result = response[1];
+Future<List<dynamic>> getURLMonthDetails(int urlID) async {
+  List<dynamic> response =
+      await sendRequest('/analytics/monthly/$urlID', {}, 'GET');
+  if (response[0] == 200) {
+    Map<String, dynamic> result = response[1];
     return [response[0], result]; //Return error message from API.
-  }
-  else{
+  } else {
     return [response[0], response[1]];
   }
 }
 
-Future<List<dynamic>> getURLVisitorInfo(int urlID) async{
-  List<dynamic> response = await sendRequest('/analytics/visitors/$urlID', {}, 'GET');
-  if(response[0] == 200){
+Future<List<dynamic>> getURLVisitorInfo(int urlID) async {
+  List<dynamic> response =
+      await sendRequest('/analytics/visitors/$urlID', {}, 'GET');
+  if (response[0] == 200) {
     List<dynamic> result = response[1];
     return [response[0], result];
-  }
-  else{
+  } else {
     return [response[0], response[1]];
   }
 }

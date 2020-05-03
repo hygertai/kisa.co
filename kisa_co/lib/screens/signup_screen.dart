@@ -3,11 +3,8 @@ import 'package:kisaco/models/user_model.dart';
 import 'package:kisaco/screens/authShort_screen.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:kisaco/components/rounded_button.dart';
-import 'package:kisaco/models/user_model.dart';
 import 'package:kisaco/screens/constants.dart';
 import 'package:provider/provider.dart';
-
-import 'dashboard_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   static const String id = 'signup_screen';

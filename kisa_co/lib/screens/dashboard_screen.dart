@@ -1,14 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:kisaco/models/url_model.dart';
 import 'package:kisaco/models/user_model.dart';
 import 'package:kisaco/screens/authShort_screen.dart';
 import 'package:kisaco/screens/welcome_screen.dart';
 import 'analytics_screen.dart';
 import 'constants.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:provider/provider.dart';
 import 'package:kisaco/components/rounded_button.dart';
 import 'package:link/link.dart';
