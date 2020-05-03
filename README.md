@@ -4,4 +4,4 @@ This is the repository of the mobile app project named kisa.co - a link shortene
 Below are some screenshots from the app as run in iPhone11 model Simulator.
 
 ![Image description](/kisa_co/screenshots/screens1.png)
-![Image description](/kisa_co/screenshots/screens2.png)
+![Image description](/kisa_co/screenshots/screens2.jpg)
