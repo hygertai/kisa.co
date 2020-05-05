@@ -2,7 +2,7 @@
 This is the repository of the mobile app project named kisa.co - a link shortener for the Cloud Computing Course (CS443). Kisa.Co is written in Dart/Flutter framework, therefore it can be run on both iOS and Android Mobile devices.
 
 
-## A short Description
+## A brief Description 
 
 kisa.co is a link-shortener application available for iOS and Android. The application takes user-provided URLs and transforms them into shortened URLs. Original URLs can be accessed via their shortened aliases. 
 
