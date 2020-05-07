@@ -142,22 +142,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             fontSize: 16))),
                               ],
                             ),
-                            // Column(
-                            //   children: <Widget>[
-                            //     Container(
-                            //         padding:
-                            //             EdgeInsets.only(top: 15, bottom: 5),
-                            //         child: Text("Dead URLs",
-                            //             style:
-                            //                 TextStyle(color: Colors.black87))),
-                            //     Container(
-                            //         padding: EdgeInsets.only(bottom: 15),
-                            //         child: Text("2",
-                            //             style: TextStyle(
-                            //                 color: Colors.black87,
-                            //                 fontSize: 16))),
-                            //   ],
-                            // ),
                             Column(
                               children: <Widget>[
                                 Container(
@@ -184,7 +168,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ],
             ),
             Container(
-              //height: _allArea.length > 3 ? 150.0 : _allArea.length * 50.0,
               margin: EdgeInsets.all(20.0),
               decoration: new BoxDecoration(
                 color: kOffWhiteColor,
@@ -235,50 +218,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         openUrlAnalytics(_data[index].url_id);
                       },
                     ),
-//                    child: Column(
-//                      mainAxisAlignment: MainAxisAlignment.start,
-//                      crossAxisAlignment: CrossAxisAlignment.start,
-//                      children: <Widget>[
-//                        Text(
-//                          "Created at:",
-//                          style: TextStyle(
-//                            color: kDarkestPurpleColor,
-//                            fontWeight: FontWeight.w700,
-//                            fontSize: 17,
-//                          ),
-//                        ),
-//                        Text(
-//                          date.toString().substring(0, 10),
-//                          style: TextStyle(
-//                            color: kDarkestPurpleColor,
-//                            fontWeight: FontWeight.w700,
-//                            fontSize: 17,
-//                          ),
-//                        ),
-//                        Text(
-//                          "Original URL: $origUrl",
-//                          style: TextStyle(fontSize: 14, color: Colors.black87),
-//                        ),
-//                        SizedBox(
-//                          height: 5,
-//                        ),
-//                        Linkify(
-//                          onOpen: (launchUrl) async {
-//                            if (await canLaunch(launchUrl.url)) {
-//                              await launch(launchUrl.url);
-//                            } else {
-//                              throw 'Could not launch';
-//                            }
-//                          },
-//                          text: '139.59.155.177:8080/$shortUrl',
-//                          options: LinkifyOptions(humanize: false),
-//                          style: TextStyle(fontSize: 14, color: Colors.black87),
-//                        ),
-//                        SizedBox(
-//                          height: 10,
-//                        ),
-//                      ],
-//                    ),
                   );
                 },
               ),
